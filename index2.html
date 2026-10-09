@@ -10,154 +10,148 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Padauk:wght@400;700&display=swap');
+
     :root {
-      --bg-dark: #050b14;
-      --bg-card: rgba(15, 23, 42, 0.85);
-      --glass-border: rgba(0, 242, 254, 0.15);
-      --neon-cyan: #00f2fe;
-      --neon-green: #00ff87;
-      --neon-pink: #ff007f;
-      --neon-amber: #ffb703;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --input-bg: rgba(0, 0, 0, 0.5);
+      --bg-dark: #030712;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --glass-border: rgba(56, 189, 248, 0.2);
+      --neon-cyan: #38bdf8;
+      --neon-green: #4ade80;
+      --neon-pink: #f43f5e;
+      --neon-amber: #fbbf24;
+      --text-main: #f3f4f6;
+      --text-sub: #9ca3af;
+      --input-bg: rgba(3, 7, 18, 0.6);
+      --accent-glow: rgba(56, 189, 248, 0.15);
     }
 
-    body.light-mode {
-      --bg-dark: #f8fafc;
-      --bg-card: rgba(255, 255, 255, 0.95);
-      --glass-border: rgba(2, 132, 199, 0.2);
-      --neon-cyan: #0284c7;
-      --neon-green: #16a34a;
-      --neon-pink: #e11d48;
-      --neon-amber: #d97706;
-      --text-main: #0f172a;
-      --text-sub: #475569;
-      --input-bg: #ffffff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, 'Pyidaungsu', sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Padauk', 'Segoe UI', sans-serif; }
 
     body {
       background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.12) 0%, transparent 45%),
-                        radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.1) 0%, transparent 45%);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(244, 63, 94, 0.1) 0px, transparent 50%);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      transition: background-color 0.3s, color 0.3s;
     }
 
     .glass {
       background: var(--bg-card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      box-shadow: 0 0 25px var(--accent-glow);
     }
 
     header {
-      position: sticky; top: 0; z-index: 100; padding: 14px 24px;
+      position: sticky; top: 0; z-index: 100; padding: 16px 28px;
       display: flex; justify-content: space-between; align-items: center;
-      border-radius: 0 0 20px 20px; border-bottom: 1px solid var(--glass-border);
+      border-radius: 0 0 24px 24px; border-bottom: 1px solid var(--glass-border);
     }
 
     .shop-title {
-      font-size: 22px; font-weight: 800;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px; font-weight: 900;
       background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      display: flex; align-items: center; gap: 10px;
+      letter-spacing: 1px;
     }
 
     .user-badge {
-      font-size: 12px; color: var(--neon-amber); background: rgba(255, 183, 3, 0.12);
-      padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255, 183, 3, 0.3);
+      font-size: 12px; color: var(--neon-amber); background: rgba(251, 191, 36, 0.1);
+      padding: 6px 14px; border-radius: 30px; border: 1px solid rgba(251, 191, 36, 0.3);
       font-weight: bold;
     }
 
     .time-badge {
-      font-size: 12px; color: var(--neon-cyan); background: rgba(0, 242, 254, 0.1);
-      padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(0, 242, 254, 0.2);
+      font-family: 'Orbitron', monospace;
+      font-size: 12px; color: var(--neon-cyan); background: rgba(56, 189, 248, 0.1);
+      padding: 6px 14px; border-radius: 30px; border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
     nav.main-tabs {
-      display: flex; gap: 10px; padding: 14px 24px;
+      display: flex; gap: 12px; padding: 18px 28px;
       overflow-x: auto; scrollbar-width: none;
     }
     nav.main-tabs::-webkit-scrollbar { display: none; }
 
     .tab-btn {
-      background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
-      color: var(--text-sub); padding: 10px 18px; border-radius: 12px;
-      cursor: pointer; font-weight: 600; font-size: 13px; white-space: nowrap;
+      background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
+      color: var(--text-sub); padding: 10px 20px; border-radius: 14px;
+      cursor: pointer; font-weight: 700; font-size: 13px; white-space: nowrap;
       transition: all 0.3s; display: flex; align-items: center; gap: 8px;
     }
-    .tab-btn:hover { background: rgba(0, 242, 254, 0.08); color: var(--text-main); border-color: var(--neon-cyan); }
+    .tab-btn:hover { background: rgba(56, 189, 248, 0.08); color: var(--text-main); border-color: var(--neon-cyan); }
     .tab-btn.active {
-      background: linear-gradient(135deg, rgba(0, 242, 254, 0.25), rgba(0, 255, 135, 0.2));
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(74, 222, 128, 0.15));
       border-color: var(--neon-cyan); color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
     }
 
-    .container { flex: 1; padding: 10px 24px 35px; max-width: 1350px; margin: 0 auto; width: 100%; }
-    .layout-section { display: none; animation: fadeIn 0.4s ease; }
+    .container { flex: 1; padding: 10px 28px 40px; max-width: 1400px; margin: 0 auto; width: 100%; }
+    .layout-section { display: none; animation: slideUp 0.4s ease; }
     .layout-section.active { display: block; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    .form-group label { font-size: 11px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-group label { font-size: 12px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
 
     .input-field {
       background: var(--input-bg); border: 1px solid var(--glass-border);
-      color: var(--text-main); padding: 11px 16px; border-radius: 10px; outline: none; font-size: 13px; transition: 0.3s;
+      color: var(--text-main); padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s;
     }
-    .input-field:focus { border-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0, 242, 254, 0.4); }
+    .input-field:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
 
     .btn {
-      padding: 10px 18px; border-radius: 10px; border: none; font-weight: 700; font-size: 12px;
-      cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 11px 20px; border-radius: 12px; border: none; font-weight: 700; font-size: 13px;
+      cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
     }
-    .btn-cyan { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px rgba(0,242,254,0.3); }
-    .btn-green { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(0,255,135,0.3); }
-    .btn-pink { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px rgba(255,0,127,0.3); }
-    .btn-amber { background: var(--neon-amber); color: #000; box-shadow: 0 0 15px rgba(255,183,3,0.3); }
+    .btn-cyan { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+    .btn-green { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(74, 222, 128, 0.3); }
+    .btn-pink { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px rgba(244, 63, 94, 0.3); }
+    .btn-amber { background: var(--neon-amber); color: #000; box-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
     .btn-outline { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); }
     .btn:hover { opacity: 0.9; transform: translateY(-2px); }
 
     .filter-btn {
-      background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
-      color: var(--text-sub); padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;
+      background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+      color: var(--text-sub); padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer;
     }
-    .filter-btn.active { background: var(--neon-cyan); color: #000; border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 242, 254, 0.5); }
+    .filter-btn.active { background: var(--neon-cyan); color: #000; border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
 
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; }
-    .badge { font-size: 10px; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; }
-    .badge-cyan { background: rgba(0, 242, 254, 0.15); color: var(--neon-cyan); border: 1px solid rgba(0, 242, 254, 0.3); }
-    .badge-pink { background: rgba(255, 0, 127, 0.15); color: var(--neon-pink); border: 1px solid rgba(255, 0, 127, 0.3); }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; }
 
     .menu-drawer {
-      position: fixed; top: 0; right: -400px; width: 380px; height: 100vh; z-index: 200; padding: 24px;
-      transition: right 0.35s ease; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+      position: fixed; top: 0; right: -420px; width: 380px; height: 100vh; z-index: 200; padding: 28px;
+      transition: right 0.35s ease; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
     }
     .menu-drawer.open { right: 0; }
-    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); z-index: 199; display: none; }
+    .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 199; display: none; }
     .drawer-overlay.open { display: block; }
 
     .menu-item-card {
-      padding: 14px; border-radius: 12px; background: rgba(255,255,255,0.03);
+      padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.02);
       border: 1px solid var(--glass-border); cursor: pointer; transition: 0.3s;
     }
-    .menu-item-card:hover { background: rgba(0, 242, 254, 0.08); border-color: var(--neon-cyan); }
+    .menu-item-card:hover { background: rgba(56, 189, 248, 0.08); border-color: var(--neon-cyan); }
 
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 300; display: none; justify-content: center; align- items: center; padding: 20px; }
-    .modal-content { width: 100%; max-width: 540px; padding: 28px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--glass-border); }
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 300; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .modal-content { width: 100%; max-width: 520px; padding: 28px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--glass-border); }
   </style>
 </head>
 <body>
@@ -165,13 +159,13 @@
   <!-- ==================== HEADER ==================== -->
   <header class="glass">
     <div style="display: flex; align-items: center; gap: 15px;">
-      <div class="shop-title" id="shopHeaderTitle">📱 Zin Min Mobile Shop</div>
+      <div class="shop-title" id="shopHeaderTitle">📱 ZIN MIN MOBILE</div>
       <div class="user-badge" id="currentUserBadge">👑 Role: Admin</div>
     </div>
     <div style="display: flex; align-items: center; gap: 12px;">
       <div class="time-badge" id="liveDateTime">Loading...</div>
-      <button class="btn btn-outline" onclick="openLoginModal()" style="border-color: var(--neon-amber); color: var(--neon-amber); padding: 6px 12px;">🔐 Login</button>
-      <button class="btn btn-outline" onclick="toggleMenuDrawer()" style="border-color: var(--neon-cyan); color: var(--neon-cyan); padding: 6px 14px;">⚙️ Menu Options</button>
+      <button class="btn btn-outline" onclick="openLoginModal()" style="border-color: var(--neon-amber); color: var(--neon-amber); padding: 6px 14px;">🔐 Login</button>
+      <button class="btn btn-outline" onclick="toggleMenuDrawer()" style="border-color: var(--neon-cyan); color: var(--neon-cyan); padding: 6px 14px;">⚙️ Options</button>
     </div>
   </header>
 
@@ -179,7 +173,7 @@
   <nav class="main-tabs">
     <button class="tab-btn active" id="tab-dashboard" onclick="switchTab('dashboard')">📊 1. Dashboard</button>
     <button class="tab-btn" id="tab-addPhone" onclick="switchTab('addPhone')">➕ 2. Add Phone / Exchange</button>
-    <button class="tab-btn" id="tab-stockList" onclick="switchTab('stockList')">📱 3. Phone Stock List</button>
+    <button class="tab-btn" id="tab-stockList" onclick="switchTab('stockList')">📱 3. Stock List</button>
     <button class="tab-btn" id="tab-soldHistory" onclick="switchTab('soldHistory')">📜 4. Sold History</button>
     <button class="tab-btn" id="tab-cashFlow" onclick="switchTab('cashFlow')">💸 5. Cash Flow</button>
     <button class="tab-btn" id="tab-repairService" onclick="switchTab('repairService')">🔧 6. Repair Service</button>
@@ -190,52 +184,52 @@
 
     <!-- DASHBOARD -->
     <section id="layout-dashboard" class="layout-section active">
-      <div class="glass" style="padding: 24px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+      <div class="glass" style="padding: 28px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid var(--glass-border); padding-bottom: 16px;">
           <div>
             <h3 style="color: var(--neon-cyan); margin: 0; font-size: 18px;">📊 Real-time Cloud Dashboard</h3>
-            <p style="font-size: 12px; color: var(--text-sub); margin-top: 3px;">ဖုန်းများနှင့် ဝဘ်ဆိုက် အချက်အလက်များ အချိန်နှင့်တစ်ပြေးညီ (Live Sync)</p>
+            <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">အချက်အလက်များ အချိန်နှင့်တစ်ပြေးညီ တိုက်ရိုက်ချိတ်ဆက်ထားပါသည်။ (Live Sync)</p>
           </div>
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <div style="display: flex; gap: 8px;">
             <button class="filter-btn active" id="filter-ALL" onclick="setDashboardPeriod('ALL')">🌐 All Time</button>
             <button class="filter-btn" id="filter-TODAY" onclick="setDashboardPeriod('TODAY')">📅 Today</button>
           </div>
         </div>
 
-        <div class="grid-4" style="margin-bottom: 22px;">
-          <div class="glass" style="padding: 18px; border-left: 4px solid var(--neon-green);">
+        <div class="grid-4" style="margin-bottom: 24px;">
+          <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-green);">
             <div style="font-size: 11px; color: var(--text-sub);">TOTAL INFLOW</div>
-            <div style="font-size: 22px; font-weight: bold; color: var(--neon-green); margin-top: 6px;" id="dashTotalInflow">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-green); margin-top: 6px; font-family: 'Orbitron';" id="dashTotalInflow">0 Ks</div>
           </div>
-          <div class="glass" style="padding: 18px; border-left: 4px solid var(--neon-pink);">
+          <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-pink);">
             <div style="font-size: 11px; color: var(--text-sub);">TOTAL OUTFLOW</div>
-            <div style="font-size: 22px; font-weight: bold; color: var(--neon-pink); margin-top: 6px;" id="dashTotalOutflow">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-pink); margin-top: 6px; font-family: 'Orbitron';" id="dashTotalOutflow">0 Ks</div>
           </div>
-          <div class="glass" style="padding: 18px; border-left: 4px solid var(--neon-cyan);">
+          <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-cyan);">
             <div style="font-size: 11px; color: var(--text-sub);">NET CASH</div>
-            <div style="font-size: 22px; font-weight: bold; color: var(--neon-cyan); margin-top: 6px;" id="dashNetCash">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-cyan); margin-top: 6px; font-family: 'Orbitron';" id="dashNetCash">0 Ks</div>
           </div>
-          <div class="glass" style="padding: 18px; border-left: 4px solid var(--neon-amber);">
+          <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-amber);">
             <div style="font-size: 11px; color: var(--text-sub);">NET PROFIT</div>
-            <div style="font-size: 22px; font-weight: bold; color: var(--neon-amber); margin-top: 6px;" id="dashSalesProfit">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-amber); margin-top: 6px; font-family: 'Orbitron';" id="dashSalesProfit">0 Ks</div>
           </div>
         </div>
 
-        <div class="glass" style="padding: 18px; background: rgba(0,0,0,0.25);">
-          <b style="color: var(--neon-cyan); font-size: 13px; display: block; margin-bottom: 12px;">📜 Cloud Transactions Log</b>
-          <div id="dashPeriodTransactionsList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        <div class="glass" style="padding: 20px; background: rgba(0,0,0,0.3);">
+          <b style="color: var(--neon-cyan); font-size: 14px; display: block; margin-bottom: 14px;">📜 Cloud Transactions Log</b>
+          <div id="dashPeriodTransactionsList" style="display: flex; flex-direction: column; gap: 10px;"></div>
         </div>
       </div>
     </section>
 
     <!-- ADD PHONE -->
     <section id="layout-addPhone" class="layout-section">
-      <div class="glass" style="padding: 24px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 18px; font-size: 18px;">➕ 2. Add Phone / Exchange</h3>
+      <div class="glass" style="padding: 28px;">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">➕ 2. Add Phone / Exchange</h3>
         <form id="addPhoneForm" onsubmit="savePhoneData(event)">
           <div class="grid-2">
-            <div class="glass" style="padding: 18px; background: rgba(0,0,0,0.2);">
-              <b style="color: var(--neon-cyan); font-size: 13px; display: block; margin-bottom: 12px;">📱 Basic Info</b>
+            <div class="glass" style="padding: 20px; background: rgba(0,0,0,0.25);">
+              <b style="color: var(--neon-cyan); font-size: 14px; display: block; margin-bottom: 14px;">📱 Basic Info</b>
               <div class="form-group"><label>Brand</label>
                 <select class="input-field" id="pBrand" required>
                   <option value="Apple">Apple</option><option value="Xiaomi">Xiaomi</option><option value="Samsung">Samsung</option><option value="Vivo">Vivo</option><option value="Oppo">Oppo</option>
@@ -244,20 +238,20 @@
               <div class="form-group"><label>Model Name</label><input class="input-field" id="pModel" placeholder="e.g. iPhone 15 Pro Max" required></div>
               <div class="form-group"><label>Color</label><input class="input-field" id="pColor" placeholder="Natural Titanium"></div>
             </div>
-            <div class="glass" style="padding: 18px; background: rgba(0,0,0,0.2);">
-              <b style="color: var(--neon-cyan); font-size: 13px; display: block; margin-bottom: 12px;">🔍 Identification & Specs</b>
+            <div class="glass" style="padding: 20px; background: rgba(0,0,0,0.25);">
+              <b style="color: var(--neon-cyan); font-size: 14px; display: block; margin-bottom: 14px;">🔍 Identification & Specs</b>
               <div class="form-group"><label>IMEI 1</label><input class="input-field" id="pImei1" placeholder="35xxxxxxxxxxxxx" required></div>
               <div class="form-group"><label>RAM & Storage</label><input class="input-field" id="pSpecs" placeholder="8GB / 256GB"></div>
               <div class="form-group"><label>Condition</label><select class="input-field" id="pCondition"><option value="Brand New">Brand New</option><option value="Second">Second</option></select></div>
             </div>
           </div>
-          <div class="glass" style="padding: 18px; margin-top: 18px; background: rgba(0,0,0,0.2);">
-            <b style="color: var(--neon-green); font-size: 13px; display: block; margin-bottom: 12px;">💸 Transaction & Pricing</b>
+          <div class="glass" style="padding: 20px; margin-top: 20px; background: rgba(0,0,0,0.25);">
+            <b style="color: var(--neon-green); font-size: 14px; display: block; margin-bottom: 14px;">💸 Transaction & Pricing</b>
             <div class="grid-4">
               <div class="form-group"><label>Type</label><select class="input-field" id="pTransType"><option value="Buy Stock">Buy Stock</option><option value="Customer Exchange">Exchange</option></select></div>
               <div class="form-group"><label>Buy Price (Ks)</label><input type="number" class="input-field" id="pBuyPrice" placeholder="1200000" required></div>
               <div class="form-group"><label>Date</label><input type="date" class="input-field" id="pTransDate"></div>
-              <div style="display: flex; align-items: flex-end;"><button type="submit" class="btn btn-cyan" style="width: 100%; height: 44px;">💾 Save to Cloud</button></div>
+              <div style="display: flex; align-items: flex-end;"><button type="submit" class="btn btn-cyan" style="width: 100%; height: 46px;">💾 Save to Cloud</button></div>
             </div>
           </div>
         </form>
@@ -266,25 +260,25 @@
 
     <!-- STOCK LIST -->
     <section id="layout-stockList" class="layout-section">
-      <div class="glass" style="padding: 24px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 18px; font-size: 18px;">📱 3. Phone Stock List</h3>
+      <div class="glass" style="padding: 28px;">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">📱 3. Phone Stock List</h3>
         <div id="stockCardGrid" class="grid-2"></div>
       </div>
     </section>
 
     <!-- SOLD HISTORY -->
     <section id="layout-soldHistory" class="layout-section">
-      <div class="glass" style="padding: 24px;">
-        <h3 style="color: var(--neon-green); margin-bottom: 18px; font-size: 18px;">📜 4. Sold History</h3>
+      <div class="glass" style="padding: 28px;">
+        <h3 style="color: var(--neon-green); margin-bottom: 20px; font-size: 18px;">📜 4. Sold History</h3>
         <div id="soldHistoryList" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </div>
     </section>
 
     <!-- CASH FLOW -->
     <section id="layout-cashFlow" class="layout-section">
-      <div class="glass" style="padding: 24px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 18px; font-size: 18px;">💸 5. Cash Flow</h3>
-        <div class="glass" style="padding: 18px; margin-bottom: 22px; background: rgba(0,0,0,0.2);">
+      <div class="glass" style="padding: 28px;">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">💸 5. Cash Flow</h3>
+        <div class="glass" style="padding: 20px; margin-bottom: 24px; background: rgba(0,0,0,0.25);">
           <div class="grid-4">
             <select class="input-field" id="cfType"><option value="IN">CASH IN</option><option value="OUT">CASH OUT</option></select>
             <input class="input-field" id="cfTitle" placeholder="Reason">
@@ -292,15 +286,15 @@
             <button class="btn btn-cyan" onclick="addCashflowManual()">💾 Save Entry</button>
           </div>
         </div>
-        <div id="cashflowList" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        <div id="cashflowList" style="display: flex; flex-direction: column; gap: 10px;"></div>
       </div>
     </section>
 
     <!-- REPAIR SERVICE -->
     <section id="layout-repairService" class="layout-section">
-      <div class="glass" style="padding: 24px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 18px; font-size: 18px;">🔧 6. Repair Service</h3>
-        <div class="glass" style="padding: 18px; margin-bottom: 22px; background: rgba(0,0,0,0.2);">
+      <div class="glass" style="padding: 28px;">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">🔧 6. Repair Service</h3>
+        <div class="glass" style="padding: 20px; margin-bottom: 24px; background: rgba(0,0,0,0.25);">
           <div class="grid-4" style="margin-bottom: 12px;">
             <input class="input-field" id="repCustName" placeholder="Customer Name">
             <input class="input-field" id="repCustPhone" placeholder="Phone">
@@ -323,19 +317,19 @@
   <!-- MENU DRAWER -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenuDrawer()"></div>
   <div class="menu-drawer glass" id="menuDrawer">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 14px;">
       <b style="color: var(--neon-cyan); font-size: 16px;">⚙️ System Menu</b>
-      <button class="btn btn-outline" style="padding: 4px 8px;" onclick="toggleMenuDrawer()">✕</button>
+      <button class="btn btn-outline" style="padding: 4px 10px;" onclick="toggleMenuDrawer()">✕</button>
     </div>
     <div class="menu-item-card" onclick="openAppInfoModal()">
-      <b style="font-size: 13px; color: var(--neon-amber);">7. ℹ️ App Info & Developer Contact</b>
+      <b style="font-size: 14px; color: var(--neon-amber);">7. ℹ️ App Info & Developer Contact</b>
     </div>
   </div>
 
   <!-- MODALS -->
   <div class="modal" id="loginModal">
     <div class="modal-content glass">
-      <h3 style="color: var(--neon-amber); margin-bottom: 15px;">🔐 Login</h3>
+      <h3 style="color: var(--neon-amber); margin-bottom: 18px;">🔐 Login</h3>
       <div class="form-group"><label>Role</label><select class="input-field" id="loginRoleSelect"><option value="Admin">Admin</option><option value="Staff">Staff</option></select></div>
       <div style="text-align: right;"><button class="btn btn-amber" onclick="confirmLoginRole()">Login</button></div>
     </div>
@@ -343,31 +337,35 @@
 
   <div class="modal" id="modalAppInfo">
     <div class="modal-content glass">
-      <h3 style="color: var(--neon-amber); margin-bottom: 15px;">ℹ️ Developer Contact</h3>
-      <p><b>Name:</b> Zin Min Dev Team</p>
-      <p><b>Phone No:</b> 09-987654321</p>
-      <p><b>Email:</b> zinmindev.pos@gmail.com</p>
-      <div style="text-align: right; margin-top: 20px;"><button class="btn btn-cyan" onclick="closeModal('modalAppInfo')">Close</button></div>
+      <h3 style="color: var(--neon-amber); margin-bottom: 18px;">ℹ️ Developer Contact</h3>
+      <p style="margin-bottom: 8px;"><b>Name:</b> Zin Min Dev Team</p>
+      <p style="margin-bottom: 8px;"><b>Phone No:</b> 09-987654321</p>
+      <p style="margin-bottom: 8px;"><b>Email:</b> zinmindev.pos@gmail.com</p>
+      <div style="text-align: right; margin-top: 24px;"><button class="btn btn-cyan" onclick="closeModal('modalAppInfo')">Close</button></div>
     </div>
   </div>
 
   <div class="modal" id="sellModal">
     <div class="modal-content glass">
-      <h3 style="color: var(--neon-cyan); margin-bottom: 12px;" id="sellModalTitle">🛒 Sell Phone</h3>
+      <h3 style="color: var(--neon-cyan); margin-bottom: 16px;" id="sellModalTitle">🛒 Sell Phone</h3>
       <div class="form-group"><label>Customer Name</label><input class="input-field" id="sellCustName" placeholder="U Ba"></div>
       <div class="form-group"><label>Sell Price (Ks)</label><input type="number" class="input-field" id="sellPrice" placeholder="1350000" required></div>
-      <div style="text-align: right; margin-top: 15px;"><button class="btn btn-green" onclick="confirmSellAction()">Confirm Sell</button></div>
+      <div style="text-align: right; margin-top: 20px;"><button class="btn btn-green" onclick="confirmSellAction()">Confirm Sell</button></div>
     </div>
   </div>
 
   <!-- ==================== FIREBASE REAL-TIME SYNC SCRIPT ==================== -->
   <script>
-    // Updated Config Matching 'zin-min-phone-shop'
+    // Verified Firebase Config for 'zin-min-phone-shop'
     const firebaseConfig = {
+      apiKey: "AIzaSyAJ3BezgfGhv_GfHehHInV2vGT5Ee98Z_A",
       authDomain: "zin-min-phone-shop.firebaseapp.com",
       databaseURL: "https://zin-min-phone-shop-default-rtdb.firebaseio.com",
       projectId: "zin-min-phone-shop",
-      storageBucket: "zin-min-phone-shop.appspot.com"
+      storageBucket: "zin-min-phone-shop.firebasestorage.app",
+      messagingSenderId: "688324121938",
+      appId: "1:688324121938:web:090c2089758820c103968b",
+      measurementId: "G-ZC4XFXSKXS"
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -458,13 +456,13 @@
       phoneList.forEach(p => {
         const isSold = p.status === 'Sold';
         grid.innerHTML += `
-          <div class="glass" style="padding: 18px; border-left: 3px solid ${isSold ? 'var(--neon-pink)' : 'var(--neon-cyan)'}">
+          <div class="glass" style="padding: 20px; border-left: 4px solid ${isSold ? 'var(--neon-pink)' : 'var(--neon-cyan)'}">
             <b style="font-size: 16px; color: var(--text-main);">${p.brand} ${p.model}</b>
-            <div style="font-size: 11px; color: var(--text-sub); margin-top: 6px;">IMEI: ${p.imei1} | ${p.specs}</div>
-            <div style="font-size: 14px; color: var(--neon-cyan); font-weight: bold; margin-top: 8px;">Price: ${p.buyPrice.toLocaleString()} Ks</div>
-            <div style="margin-top: 10px; display: flex; gap: 8px;">
-              ${!isSold ? `<button class="btn btn-green" onclick="openSellModal('${p.id}')">🛒 ရောင်းမည်</button>` : '<b style="color:var(--neon-pink); font-size:11px;">Sold</b>'}
-              <button class="btn btn-pink" style="padding: 4px 10px; font-size: 11px;" onclick="deletePhone('${p.id}')">🗑️ ဖျက်မည်</button>
+            <div style="font-size: 12px; color: var(--text-sub); margin-top: 6px;">IMEI: ${p.imei1} | ${p.specs}</div>
+            <div style="font-size: 15px; color: var(--neon-cyan); font-weight: bold; margin-top: 10px; font-family: 'Orbitron';">Price: ${p.buyPrice.toLocaleString()} Ks</div>
+            <div style="margin-top: 14px; display: flex; gap: 10px;">
+              ${!isSold ? `<button class="btn btn-green" onclick="openSellModal('${p.id}')">🛒 ရောင်းမည်</button>` : '<b style="color:var(--neon-pink); font-size:12px;">Sold</b>'}
+              <button class="btn btn-pink" style="padding: 6px 12px; font-size: 12px;" onclick="deletePhone('${p.id}')">🗑️ ဖျက်မည်</button>
             </div>
           </div>
         `;
@@ -503,15 +501,15 @@
       container.innerHTML = '';
       soldList.forEach(item => {
         container.innerHTML += `
-          <div class="glass" style="padding: 14px; border-left: 3px solid var(--neon-green);">
-            <div style="display: flex; justify-content: space-between;">
+          <div class="glass" style="padding: 16px; border-left: 4px solid var(--neon-green);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <b style="color: var(--neon-cyan); font-size: 12px;">🧾 ${item.voucherNo}</b>
-                <div style="font-size: 15px; font-weight: bold;">${item.brand} ${item.model}</div>
-                <div style="font-size: 11px; color: var(--text-sub);">Customer: ${item.custName}</div>
+                <b style="color: var(--neon-cyan); font-size: 12px; font-family: 'Orbitron';">🧾 ${item.voucherNo}</b>
+                <div style="font-size: 16px; font-weight: bold; margin-top: 2px;">${item.brand} ${item.model}</div>
+                <div style="font-size: 12px; color: var(--text-sub);">Customer: ${item.custName}</div>
               </div>
               <div style="text-align: right;">
-                <div style="font-size: 15px; color: var(--neon-green); font-weight: bold;">${item.sellPrice.toLocaleString()} Ks</div>
+                <div style="font-size: 16px; color: var(--neon-green); font-weight: bold; font-family: 'Orbitron';">${item.sellPrice.toLocaleString()} Ks</div>
               </div>
             </div>
           </div>
@@ -534,9 +532,9 @@
       container.innerHTML = '';
       cashflowList.forEach(item => {
         container.innerHTML += `
-          <div class="glass" style="padding: 12px; border-left: 3px solid ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'}; display: flex; justify-content: space-between;">
-            <div><b>${item.title}</b><div style="font-size: 10px; color: var(--text-sub);">${item.date}</div></div>
-            <b style="color: ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'};">${item.type === 'IN' ? '+' : '-'}${item.amount.toLocaleString()} Ks</b>
+          <div class="glass" style="padding: 14px; border-left: 4px solid ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'}; display: flex; justify-content: space-between; align-items: center;">
+            <div><b>${item.title}</b><div style="font-size: 11px; color: var(--text-sub);">${item.date}</div></div>
+            <b style="color: ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'}; font-family: 'Orbitron';">${item.type === 'IN' ? '+' : '-'}${item.amount.toLocaleString()} Ks</b>
           </div>
         `;
       });
@@ -559,9 +557,9 @@
       container.innerHTML = '';
       repairList.forEach(item => {
         container.innerHTML += `
-          <div class="glass" style="padding: 14px; border-left: 3px solid var(--neon-amber);">
+          <div class="glass" style="padding: 16px; border-left: 4px solid var(--neon-amber);">
             <b>${item.model}</b> - <span style="color:var(--neon-pink);">${item.issue}</span>
-            <div style="font-size: 11px; color: var(--text-sub);">Customer: ${item.custName} | Cost: ${item.cost.toLocaleString()} Ks</div>
+            <div style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">Customer: ${item.custName} | Cost: ${item.cost.toLocaleString()} Ks</div>
           </div>
         `;
       });
@@ -588,9 +586,9 @@
       transContainer.innerHTML = '';
       soldList.slice(0, 6).forEach(s => {
         transContainer.innerHTML += `
-          <div style="display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 8px; border-left: 3px solid var(--neon-green);">
+          <div style="display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; border-left: 3px solid var(--neon-green);">
             <b>📱 ${s.brand} ${s.model} (ရောင်းချမှု)</b>
-            <b style="color: var(--neon-green);">+${s.sellPrice.toLocaleString()} Ks</b>
+            <b style="color: var(--neon-green); font-family: 'Orbitron';">+${s.sellPrice.toLocaleString()} Ks</b>
           </div>
         `;
       });
