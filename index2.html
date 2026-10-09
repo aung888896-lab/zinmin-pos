@@ -156,7 +156,7 @@
     }
     .menu-item-card:hover { background: rgba(0, 242, 254, 0.08); border-color: var(--neon-cyan); }
 
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 300; display: none; justify-content: center; align-items: center; padding: 20px; }
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 300; display: none; justify-content: center; align- items: center; padding: 20px; }
     .modal-content { width: 100%; max-width: 540px; padding: 28px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--glass-border); }
   </style>
 </head>
@@ -362,16 +362,12 @@
 
   <!-- ==================== FIREBASE REAL-TIME SYNC SCRIPT ==================== -->
   <script>
-    // Corrected Firebase Config with matching databaseURL
+    // Updated Config Matching 'zin-min-phone-shop'
     const firebaseConfig = {
-      apiKey: "AIzaSyDzHjD3UUvM99-wDIOgWQ1tgRRmHcVHTao",
-      authDomain: "zinmin-mobile-pos.firebaseapp.com",
+      authDomain: "zin-min-phone-shop.firebaseapp.com",
       databaseURL: "https://zin-min-phone-shop-default-rtdb.firebaseio.com",
-      projectId: "zinmin-mobile-pos",
-      storageBucket: "zinmin-mobile-pos.firebasestorage.app",
-      messagingSenderId: "928742829935",
-      appId: "1:928742829935:web:f955ddb9903de7e328029a",
-      measurementId: "G-P0ERSK3K3T"
+      projectId: "zin-min-phone-shop",
+      storageBucket: "zin-min-phone-shop.appspot.com"
     };
 
     firebase.initializeApp(firebaseConfig);
