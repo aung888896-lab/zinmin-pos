@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zin Min Mobile Shop - Cloud POS System</title>
   
-  <!-- Firebase App & Realtime Database SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <!-- Firebase Classic SDK (Version 8 - Stable & Fast) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Padauk:wght@400;700&display=swap');
@@ -48,10 +48,6 @@
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .glass:hover {
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 0 25px var(--accent-glow);
-    }
 
     header {
       position: sticky; top: 0; z-index: 100; padding: 16px 28px;
@@ -64,7 +60,6 @@
       font-size: 20px; font-weight: 900;
       background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: 1px;
     }
 
     .user-badge {
@@ -80,96 +75,71 @@
     }
 
     nav.main-tabs {
-      display: flex; gap: 12px; padding: 18px 28px;
-      overflow-x: auto; scrollbar-width: none;
+      display: flex; gap: 12px; padding: 18px 28px; overflow-x: auto;
     }
-    nav.main-tabs::-webkit-scrollbar { display: none; }
 
     .tab-btn {
       background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
       color: var(--text-sub); padding: 10px 20px; border-radius: 14px;
-      cursor: pointer; font-weight: 700; font-size: 13px; white-space: nowrap;
-      transition: all 0.3s; display: flex; align-items: center; gap: 8px;
+      cursor: pointer; font-weight: 700; font-size: 13px; white-space: nowrap; transition: all 0.3s;
     }
-    .tab-btn:hover { background: rgba(56, 189, 248, 0.08); color: var(--text-main); border-color: var(--neon-cyan); }
     .tab-btn.active {
       background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(74, 222, 128, 0.15));
       border-color: var(--neon-cyan); color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
     }
 
     .container { flex: 1; padding: 10px 28px 40px; max-width: 1400px; margin: 0 auto; width: 100%; }
-    .layout-section { display: none; animation: slideUp 0.4s ease; }
+    .layout-section { display: none; }
     .layout-section.active { display: block; }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-    .form-group label { font-size: 12px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; }
+    .form-group label { font-size: 12px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; }
 
     .input-field {
       background: var(--input-bg); border: 1px solid var(--glass-border);
-      color: var(--text-main); padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px; transition: 0.3s;
+      color: var(--text-main); padding: 12px 16px; border-radius: 12px; outline: none; font-size: 14px;
     }
-    .input-field:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
 
     .btn {
-      padding: 11px 20px; border-radius: 12px; border: none; font-weight: 700; font-size: 13px;
-      cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 20px; border-radius: 12px; border: none; font-weight: 700; font-size: 13px; cursor: pointer;
     }
-    .btn-cyan { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
-    .btn-green { background: var(--neon-green); color: #000; box-shadow: 0 0 15px rgba(74, 222, 128, 0.3); }
-    .btn-pink { background: var(--neon-pink); color: #fff; box-shadow: 0 0 15px rgba(244, 63, 94, 0.3); }
-    .btn-amber { background: var(--neon-amber); color: #000; box-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
+    .btn-cyan { background: var(--neon-cyan); color: #000; }
+    .btn-green { background: var(--neon-green); color: #000; }
+    .btn-pink { background: var(--neon-pink); color: #fff; }
+    .btn-amber { background: var(--neon-amber); color: #000; }
     .btn-outline { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); }
-    .btn:hover { opacity: 0.9; transform: translateY(-2px); }
-
-    .filter-btn {
-      background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
-      color: var(--text-sub); padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: 600; cursor: pointer;
-    }
-    .filter-btn.active { background: var(--neon-cyan); color: #000; border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
 
     .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; }
 
     .menu-drawer {
       position: fixed; top: 0; right: -420px; width: 380px; height: 100vh; z-index: 200; padding: 28px;
-      transition: right 0.35s ease; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
+      transition: right 0.35s ease; display: flex; flex-direction: column; gap: 16px; background: #030712; border-left: 1px solid var(--glass-border);
     }
     .menu-drawer.open { right: 0; }
     .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); z-index: 199; display: none; }
     .drawer-overlay.open { display: block; }
 
-    .menu-item-card {
-      padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.02);
-      border: 1px solid var(--glass-border); cursor: pointer; transition: 0.3s;
-    }
-    .menu-item-card:hover { background: rgba(56, 189, 248, 0.08); border-color: var(--neon-cyan); }
-
     .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); z-index: 300; display: none; justify-content: center; align-items: center; padding: 20px; }
-    .modal-content { width: 100%; max-width: 520px; padding: 28px; max-height: 90vh; overflow-y: auto; border: 1px solid var(--glass-border); }
+    .modal-content { width: 100%; max-width: 520px; padding: 28px; border: 1px solid var(--glass-border); }
   </style>
 </head>
 <body>
 
-  <!-- ==================== HEADER ==================== -->
+  <!-- HEADER -->
   <header class="glass">
     <div style="display: flex; align-items: center; gap: 15px;">
-      <div class="shop-title" id="shopHeaderTitle">📱 ZIN MIN MOBILE</div>
+      <div class="shop-title">📱 ZIN MIN MOBILE</div>
       <div class="user-badge" id="currentUserBadge">👑 Role: Admin</div>
     </div>
     <div style="display: flex; align-items: center; gap: 12px;">
       <div class="time-badge" id="liveDateTime">Loading...</div>
-      <button class="btn btn-outline" onclick="openLoginModal()" style="border-color: var(--neon-amber); color: var(--neon-amber); padding: 6px 14px;">🔐 Login</button>
-      <button class="btn btn-outline" onclick="toggleMenuDrawer()" style="border-color: var(--neon-cyan); color: var(--neon-cyan); padding: 6px 14px;">⚙️ Options</button>
+      <button class="btn btn-outline" onclick="openLoginModal()" style="border-color: var(--neon-amber); color: var(--neon-amber);">🔐 Login</button>
+      <button class="btn btn-outline" onclick="toggleMenuDrawer()" style="border-color: var(--neon-cyan); color: var(--neon-cyan);">⚙️ Options</button>
     </div>
   </header>
 
-  <!-- ==================== NAVIGATION TABS ==================== -->
+  <!-- TABS -->
   <nav class="main-tabs">
     <button class="tab-btn active" id="tab-dashboard" onclick="switchTab('dashboard')">📊 1. Dashboard</button>
     <button class="tab-btn" id="tab-addPhone" onclick="switchTab('addPhone')">➕ 2. Add Phone / Exchange</button>
@@ -179,45 +149,30 @@
     <button class="tab-btn" id="tab-repairService" onclick="switchTab('repairService')">🔧 6. Repair Service</button>
   </nav>
 
-  <!-- ==================== CONTAINER ==================== -->
+  <!-- CONTAINER -->
   <div class="container">
 
     <!-- DASHBOARD -->
     <section id="layout-dashboard" class="layout-section active">
       <div class="glass" style="padding: 28px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid var(--glass-border); padding-bottom: 16px;">
-          <div>
-            <h3 style="color: var(--neon-cyan); margin: 0; font-size: 18px;">📊 Real-time Cloud Dashboard</h3>
-            <p style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">အချက်အလက်များ အချိန်နှင့်တစ်ပြေးညီ တိုက်ရိုက်ချိတ်ဆက်ထားပါသည်။ (Live Sync)</p>
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="filter-btn active" id="filter-ALL" onclick="setDashboardPeriod('ALL')">🌐 All Time</button>
-            <button class="filter-btn" id="filter-TODAY" onclick="setDashboardPeriod('TODAY')">📅 Today</button>
-          </div>
-        </div>
-
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px;">📊 Real-time Dashboard</h3>
         <div class="grid-4" style="margin-bottom: 24px;">
           <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-green);">
             <div style="font-size: 11px; color: var(--text-sub);">TOTAL INFLOW</div>
-            <div style="font-size: 24px; font-weight: bold; color: var(--neon-green); margin-top: 6px; font-family: 'Orbitron';" id="dashTotalInflow">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-green); font-family: 'Orbitron';" id="dashTotalInflow">0 Ks</div>
           </div>
           <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-pink);">
             <div style="font-size: 11px; color: var(--text-sub);">TOTAL OUTFLOW</div>
-            <div style="font-size: 24px; font-weight: bold; color: var(--neon-pink); margin-top: 6px; font-family: 'Orbitron';" id="dashTotalOutflow">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-pink); font-family: 'Orbitron';" id="dashTotalOutflow">0 Ks</div>
           </div>
           <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-cyan);">
             <div style="font-size: 11px; color: var(--text-sub);">NET CASH</div>
-            <div style="font-size: 24px; font-weight: bold; color: var(--neon-cyan); margin-top: 6px; font-family: 'Orbitron';" id="dashNetCash">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-cyan); font-family: 'Orbitron';" id="dashNetCash">0 Ks</div>
           </div>
           <div class="glass" style="padding: 20px; border-left: 4px solid var(--neon-amber);">
             <div style="font-size: 11px; color: var(--text-sub);">NET PROFIT</div>
-            <div style="font-size: 24px; font-weight: bold; color: var(--neon-amber); margin-top: 6px; font-family: 'Orbitron';" id="dashSalesProfit">0 Ks</div>
+            <div style="font-size: 24px; font-weight: bold; color: var(--neon-amber); font-family: 'Orbitron';" id="dashSalesProfit">0 Ks</div>
           </div>
-        </div>
-
-        <div class="glass" style="padding: 20px; background: rgba(0,0,0,0.3);">
-          <b style="color: var(--neon-cyan); font-size: 14px; display: block; margin-bottom: 14px;">📜 Cloud Transactions Log</b>
-          <div id="dashPeriodTransactionsList" style="display: flex; flex-direction: column; gap: 10px;"></div>
         </div>
       </div>
     </section>
@@ -225,11 +180,10 @@
     <!-- ADD PHONE -->
     <section id="layout-addPhone" class="layout-section">
       <div class="glass" style="padding: 28px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">➕ 2. Add Phone / Exchange</h3>
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px;">➕ 2. Add Phone / Exchange</h3>
         <form id="addPhoneForm" onsubmit="savePhoneData(event)">
           <div class="grid-2">
-            <div class="glass" style="padding: 20px; background: rgba(0,0,0,0.25);">
-              <b style="color: var(--neon-cyan); font-size: 14px; display: block; margin-bottom: 14px;">📱 Basic Info</b>
+            <div class="glass" style="padding: 20px;">
               <div class="form-group"><label>Brand</label>
                 <select class="input-field" id="pBrand" required>
                   <option value="Apple">Apple</option><option value="Xiaomi">Xiaomi</option><option value="Samsung">Samsung</option><option value="Vivo">Vivo</option><option value="Oppo">Oppo</option>
@@ -238,15 +192,13 @@
               <div class="form-group"><label>Model Name</label><input class="input-field" id="pModel" placeholder="e.g. iPhone 15 Pro Max" required></div>
               <div class="form-group"><label>Color</label><input class="input-field" id="pColor" placeholder="Natural Titanium"></div>
             </div>
-            <div class="glass" style="padding: 20px; background: rgba(0,0,0,0.25);">
-              <b style="color: var(--neon-cyan); font-size: 14px; display: block; margin-bottom: 14px;">🔍 Identification & Specs</b>
+            <div class="glass" style="padding: 20px;">
               <div class="form-group"><label>IMEI 1</label><input class="input-field" id="pImei1" placeholder="35xxxxxxxxxxxxx" required></div>
               <div class="form-group"><label>RAM & Storage</label><input class="input-field" id="pSpecs" placeholder="8GB / 256GB"></div>
               <div class="form-group"><label>Condition</label><select class="input-field" id="pCondition"><option value="Brand New">Brand New</option><option value="Second">Second</option></select></div>
             </div>
           </div>
-          <div class="glass" style="padding: 20px; margin-top: 20px; background: rgba(0,0,0,0.25);">
-            <b style="color: var(--neon-green); font-size: 14px; display: block; margin-bottom: 14px;">💸 Transaction & Pricing</b>
+          <div class="glass" style="padding: 20px; margin-top: 20px;">
             <div class="grid-4">
               <div class="form-group"><label>Type</label><select class="input-field" id="pTransType"><option value="Buy Stock">Buy Stock</option><option value="Customer Exchange">Exchange</option></select></div>
               <div class="form-group"><label>Buy Price (Ks)</label><input type="number" class="input-field" id="pBuyPrice" placeholder="1200000" required></div>
@@ -261,7 +213,7 @@
     <!-- STOCK LIST -->
     <section id="layout-stockList" class="layout-section">
       <div class="glass" style="padding: 28px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">📱 3. Phone Stock List</h3>
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px;">📱 3. Phone Stock List</h3>
         <div id="stockCardGrid" class="grid-2"></div>
       </div>
     </section>
@@ -269,7 +221,7 @@
     <!-- SOLD HISTORY -->
     <section id="layout-soldHistory" class="layout-section">
       <div class="glass" style="padding: 28px;">
-        <h3 style="color: var(--neon-green); margin-bottom: 20px; font-size: 18px;">📜 4. Sold History</h3>
+        <h3 style="color: var(--neon-green); margin-bottom: 20px;">📜 4. Sold History</h3>
         <div id="soldHistoryList" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </div>
     </section>
@@ -277,8 +229,8 @@
     <!-- CASH FLOW -->
     <section id="layout-cashFlow" class="layout-section">
       <div class="glass" style="padding: 28px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">💸 5. Cash Flow</h3>
-        <div class="glass" style="padding: 20px; margin-bottom: 24px; background: rgba(0,0,0,0.25);">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px;">💸 5. Cash Flow</h3>
+        <div class="glass" style="padding: 20px; margin-bottom: 24px;">
           <div class="grid-4">
             <select class="input-field" id="cfType"><option value="IN">CASH IN</option><option value="OUT">CASH OUT</option></select>
             <input class="input-field" id="cfTitle" placeholder="Reason">
@@ -293,8 +245,8 @@
     <!-- REPAIR SERVICE -->
     <section id="layout-repairService" class="layout-section">
       <div class="glass" style="padding: 28px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 20px; font-size: 18px;">🔧 6. Repair Service</h3>
-        <div class="glass" style="padding: 20px; margin-bottom: 24px; background: rgba(0,0,0,0.25);">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 20px;">🔧 6. Repair Service</h3>
+        <div class="glass" style="padding: 20px; margin-bottom: 24px;">
           <div class="grid-4" style="margin-bottom: 12px;">
             <input class="input-field" id="repCustName" placeholder="Customer Name">
             <input class="input-field" id="repCustPhone" placeholder="Phone">
@@ -314,19 +266,18 @@
 
   </div>
 
-  <!-- MENU DRAWER -->
+  <!-- DRAWER & MODALS -->
   <div class="drawer-overlay" id="drawerOverlay" onclick="toggleMenuDrawer()"></div>
-  <div class="menu-drawer glass" id="menuDrawer">
+  <div class="menu-drawer" id="menuDrawer">
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 14px;">
-      <b style="color: var(--neon-cyan); font-size: 16px;">⚙️ System Menu</b>
-      <button class="btn btn-outline" style="padding: 4px 10px;" onclick="toggleMenuDrawer()">✕</button>
+      <b style="color: var(--neon-cyan);">⚙️ System Menu</b>
+      <button class="btn btn-outline" onclick="toggleMenuDrawer()">✕</button>
     </div>
-    <div class="menu-item-card" onclick="openAppInfoModal()">
-      <b style="font-size: 14px; color: var(--neon-amber);">7. ℹ️ App Info & Developer Contact</b>
+    <div class="glass" style="padding: 16px; cursor: pointer;" onclick="openAppInfoModal()">
+      <b style="color: var(--neon-amber);">7. ℹ️ Developer Contact</b>
     </div>
   </div>
 
-  <!-- MODALS -->
   <div class="modal" id="loginModal">
     <div class="modal-content glass">
       <h3 style="color: var(--neon-amber); margin-bottom: 18px;">🔐 Login</h3>
@@ -338,26 +289,24 @@
   <div class="modal" id="modalAppInfo">
     <div class="modal-content glass">
       <h3 style="color: var(--neon-amber); margin-bottom: 18px;">ℹ️ Developer Contact</h3>
-      <p style="margin-bottom: 8px;"><b>Name:</b> Zin Min Dev Team</p>
-      <p style="margin-bottom: 8px;"><b>Phone No:</b> 09-987654321</p>
-      <p style="margin-bottom: 8px;"><b>Email:</b> zinmindev.pos@gmail.com</p>
+      <p><b>Name:</b> Zin Min Dev Team</p>
+      <p><b>Phone:</b> 09-987654321</p>
       <div style="text-align: right; margin-top: 24px;"><button class="btn btn-cyan" onclick="closeModal('modalAppInfo')">Close</button></div>
     </div>
   </div>
 
   <div class="modal" id="sellModal">
     <div class="modal-content glass">
-      <h3 style="color: var(--neon-cyan); margin-bottom: 16px;" id="sellModalTitle">🛒 Sell Phone</h3>
+      <h3 style="color: var(--neon-cyan); margin-bottom: 16px;">🛒 Sell Phone</h3>
       <div class="form-group"><label>Customer Name</label><input class="input-field" id="sellCustName" placeholder="U Ba"></div>
       <div class="form-group"><label>Sell Price (Ks)</label><input type="number" class="input-field" id="sellPrice" placeholder="1350000" required></div>
       <div style="text-align: right; margin-top: 20px;"><button class="btn btn-green" onclick="confirmSellAction()">Confirm Sell</button></div>
     </div>
   </div>
 
-  <!-- ==================== FIREBASE REAL-TIME SYNC SCRIPT ==================== -->
+  <!-- FIREBASE SCRIPT (CLASSIC V8) -->
   <script>
-    // Verified Firebase Config for 'zin-min-phone-shop'
-    const firebaseConfig = {
+    var firebaseConfig = {
       apiKey: "AIzaSyAJ3BezgfGhv_GfHehHInV2vGT5Ee98Z_A",
       authDomain: "zin-min-phone-shop.firebaseapp.com",
       databaseURL: "https://zin-min-phone-shop-default-rtdb.firebaseio.com",
@@ -368,69 +317,70 @@
       measurementId: "G-ZC4XFXSKXS"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    var db = firebase.database();
 
-    let phoneList = [];
-    let soldList = [];
-    let cashflowList = [];
-    let repairList = [];
-    let currentUserRole = 'Admin';
-    let activePeriod = 'ALL';
-    let selectedPhoneIdForSell = null;
+    var phoneList = [];
+    var soldList = [];
+    var cashflowList = [];
+    var repairList = [];
+    var selectedPhoneIdForSell = null;
 
-    // Realtime Listeners
-    db.ref('phoneList').on('value', (snapshot) => {
-      const data = snapshot.val();
+    // Realtime Sync Listeners
+    db.ref('phoneList').on('value', function(snapshot) {
+      var data = snapshot.val();
       phoneList = data ? Object.values(data) : [];
       renderAllLayouts();
     });
 
-    db.ref('soldList').on('value', (snapshot) => {
-      const data = snapshot.val();
+    db.ref('soldList').on('value', function(snapshot) {
+      var data = snapshot.val();
       soldList = data ? Object.values(data) : [];
       renderAllLayouts();
     });
 
-    db.ref('cashflowList').on('value', (snapshot) => {
-      const data = snapshot.val();
+    db.ref('cashflowList').on('value', function(snapshot) {
+      var data = snapshot.val();
       cashflowList = data ? Object.values(data) : [];
       renderAllLayouts();
     });
 
-    db.ref('repairList').on('value', (snapshot) => {
-      const data = snapshot.val();
+    db.ref('repairList').on('value', function(snapshot) {
+      var data = snapshot.val();
       repairList = data ? Object.values(data) : [];
       renderAllLayouts();
     });
 
     function updateClock() {
-      const now = new Date();
-      document.getElementById('liveDateTime').innerText = now.toLocaleDateString() + ' | ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      var now = new Date();
+      document.getElementById('liveDateTime').innerText = now.toLocaleDateString() + ' | ' + now.toLocaleTimeString();
     }
     setInterval(updateClock, 1000);
     updateClock();
 
     function switchTab(layoutId) {
-      document.querySelectorAll('.layout-section').forEach(sec => sec.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(`layout-${layoutId}`).classList.add('active');
-      document.getElementById(`tab-${layoutId}`).classList.add('active');
+      document.querySelectorAll('.layout-section').forEach(function(sec) { sec.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+      document.getElementById('layout-' + layoutId).classList.add('active');
+      document.getElementById('tab-' + layoutId).classList.add('active');
     }
 
     function toggleMenuDrawer() {
       document.getElementById('menuDrawer').classList.toggle('open');
       document.getElementById('drawerOverlay').classList.toggle('open');
     }
-    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
     function openAppInfoModal() { toggleMenuDrawer(); document.getElementById('modalAppInfo').style.display = 'flex'; }
-    function confirmLoginRole() { currentUserRole = document.getElementById('loginRoleSelect').value; closeModal('loginModal'); alert('Logged in as ' + currentUserRole); }
+    function confirmLoginRole() { closeModal('loginModal'); alert('Logged in'); }
 
     function savePhoneData(e) {
       e.preventDefault();
-      const phoneObj = {
-        id: 'P' + Date.now(),
+      var id = 'P' + Date.now();
+      var phoneObj = {
+        id: id,
         brand: document.getElementById('pBrand').value,
         model: document.getElementById('pModel').value.trim(),
         color: document.getElementById('pColor').value.trim(),
@@ -443,26 +393,32 @@
         timestamp: new Date().toISOString(),
         status: 'Available'
       };
-      db.ref('phoneList/' + phoneObj.id).set(phoneObj);
-      alert('Saved to Cloud successfully!');
-      document.getElementById('addPhoneForm').reset();
-      switchTab('stockList');
+
+      db.ref('phoneList/' + id).set(phoneObj, function(error) {
+        if (error) {
+          alert('Error saving data: ' + error.message);
+        } else {
+          alert('✅ Cloud ထဲသို့ ဒေတာ သိမ်းဆည်းပြီးပါပြီ!');
+          document.getElementById('addPhoneForm').reset();
+          switchTab('stockList');
+        }
+      });
     }
 
     function renderStockList() {
-      const grid = document.getElementById('stockCardGrid');
+      var grid = document.getElementById('stockCardGrid');
       grid.innerHTML = '';
-      if (phoneList.length === 0) { grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 30px;">Cloud Stock is empty</div>`; return; }
-      phoneList.forEach(p => {
-        const isSold = p.status === 'Sold';
+      if (phoneList.length === 0) { grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 30px;">Stock Empty</div>'; return; }
+      phoneList.forEach(function(p) {
+        var isSold = p.status === 'Sold';
         grid.innerHTML += `
           <div class="glass" style="padding: 20px; border-left: 4px solid ${isSold ? 'var(--neon-pink)' : 'var(--neon-cyan)'}">
-            <b style="font-size: 16px; color: var(--text-main);">${p.brand} ${p.model}</b>
+            <b style="font-size: 16px;">${p.brand} ${p.model}</b>
             <div style="font-size: 12px; color: var(--text-sub); margin-top: 6px;">IMEI: ${p.imei1} | ${p.specs}</div>
             <div style="font-size: 15px; color: var(--neon-cyan); font-weight: bold; margin-top: 10px; font-family: 'Orbitron';">Price: ${p.buyPrice.toLocaleString()} Ks</div>
             <div style="margin-top: 14px; display: flex; gap: 10px;">
-              ${!isSold ? `<button class="btn btn-green" onclick="openSellModal('${p.id}')">🛒 ရောင်းမည်</button>` : '<b style="color:var(--neon-pink); font-size:12px;">Sold</b>'}
-              <button class="btn btn-pink" style="padding: 6px 12px; font-size: 12px;" onclick="deletePhone('${p.id}')">🗑️ ဖျက်မည်</button>
+              ${!isSold ? `<button class="btn btn-green" onclick="openSellModal('${p.id}')">🛒 ရောင်းမည်</button>` : '<b style="color:var(--neon-pink);">Sold</b>'}
+              <button class="btn btn-pink" onclick="deletePhone('${p.id}')">🗑️ ဖျက်မည်</button>
             </div>
           </div>
         `;
@@ -475,21 +431,22 @@
     }
 
     function confirmSellAction() {
-      const sellPrice = Number(document.getElementById('sellPrice').value);
-      const custName = document.getElementById('sellCustName').value.trim() || 'General Customer';
-      const phone = phoneList.find(p => p.id === selectedPhoneIdForSell);
+      var sellPrice = Number(document.getElementById('sellPrice').value);
+      var custName = document.getElementById('sellCustName').value.trim() || 'General Customer';
+      var phone = phoneList.find(function(p) { return p.id === selectedPhoneIdForSell; });
       if (!phone || !sellPrice) return;
 
       db.ref('phoneList/' + phone.id + '/status').set('Sold');
-      const soldObj = {
-        voucherNo: 'INV-' + Math.floor(100000 + Math.random() * 900000),
+      var voucherNo = 'INV-' + Math.floor(100000 + Math.random() * 900000);
+      var soldObj = {
+        voucherNo: voucherNo,
         brand: phone.brand, model: phone.model, imei: phone.imei1,
         sellPrice: sellPrice, profit: sellPrice - phone.buyPrice, custName: custName,
         date: new Date().toLocaleDateString(), timestamp: new Date().toISOString()
       };
-      db.ref('soldList/' + soldObj.voucherNo).set(soldObj);
+      db.ref('soldList/' + voucherNo).set(soldObj);
       closeModal('sellModal');
-      alert('Sold recorded to Cloud!');
+      alert('✅ ရောင်းချမှု မှတ်တမ်းတင်ပြီးပါပြီ!');
     }
 
     function deletePhone(id) {
@@ -497,20 +454,18 @@
     }
 
     function renderSoldHistory() {
-      const container = document.getElementById('soldHistoryList');
+      var container = document.getElementById('soldHistoryList');
       container.innerHTML = '';
-      soldList.forEach(item => {
+      soldList.forEach(function(item) {
         container.innerHTML += `
           <div class="glass" style="padding: 16px; border-left: 4px solid var(--neon-green);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; justify-content: space-between;">
               <div>
-                <b style="color: var(--neon-cyan); font-size: 12px; font-family: 'Orbitron';">🧾 ${item.voucherNo}</b>
-                <div style="font-size: 16px; font-weight: bold; margin-top: 2px;">${item.brand} ${item.model}</div>
+                <b style="color: var(--neon-cyan); font-family: 'Orbitron';">🧾 ${item.voucherNo}</b>
+                <div style="font-size: 16px; font-weight: bold;">${item.brand} ${item.model}</div>
                 <div style="font-size: 12px; color: var(--text-sub);">Customer: ${item.custName}</div>
               </div>
-              <div style="text-align: right;">
-                <div style="font-size: 16px; color: var(--neon-green); font-weight: bold; font-family: 'Orbitron';">${item.sellPrice.toLocaleString()} Ks</div>
-              </div>
+              <b style="color: var(--neon-green); font-family: 'Orbitron';">${item.sellPrice.toLocaleString()} Ks</b>
             </div>
           </div>
         `;
@@ -518,21 +473,21 @@
     }
 
     function addCashflowManual() {
-      const type = document.getElementById('cfType').value;
-      const title = document.getElementById('cfTitle').value.trim();
-      const amount = Number(document.getElementById('cfAmount').value);
+      var type = document.getElementById('cfType').value;
+      var title = document.getElementById('cfTitle').value.trim();
+      var amount = Number(document.getElementById('cfAmount').value);
       if (!title || !amount) return;
-      const id = Date.now();
-      db.ref('cashflowList/' + id).set({ type, title, amount, date: new Date().toLocaleDateString(), timestamp: new Date().toISOString() });
+      var id = Date.now();
+      db.ref('cashflowList/' + id).set({ type: type, title: title, amount: amount, date: new Date().toLocaleDateString() });
       document.getElementById('cfTitle').value = ''; document.getElementById('cfAmount').value = '';
     }
 
     function renderCashflow() {
-      const container = document.getElementById('cashflowList');
+      var container = document.getElementById('cashflowList');
       container.innerHTML = '';
-      cashflowList.forEach(item => {
+      cashflowList.forEach(function(item) {
         container.innerHTML += `
-          <div class="glass" style="padding: 14px; border-left: 4px solid ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'}; display: flex; justify-content: space-between; align-items: center;">
+          <div class="glass" style="padding: 14px; border-left: 4px solid ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'}; display: flex; justify-content: space-between;">
             <div><b>${item.title}</b><div style="font-size: 11px; color: var(--text-sub);">${item.date}</div></div>
             <b style="color: ${item.type === 'IN' ? 'var(--neon-green)' : 'var(--neon-pink)'}; font-family: 'Orbitron';">${item.type === 'IN' ? '+' : '-'}${item.amount.toLocaleString()} Ks</b>
           </div>
@@ -541,57 +496,44 @@
     }
 
     function addRepairJob() {
-      const name = document.getElementById('repCustName').value.trim();
-      const phone = document.getElementById('repCustPhone').value.trim();
-      const model = document.getElementById('repModel').value.trim();
-      const issue = document.getElementById('repIssue').value.trim();
-      const cost = Number(document.getElementById('repCost').value);
+      var name = document.getElementById('repCustName').value.trim();
+      var phone = document.getElementById('repCustPhone').value.trim();
+      var model = document.getElementById('repModel').value.trim();
+      var issue = document.getElementById('repIssue').value.trim();
+      var cost = Number(document.getElementById('repCost').value);
       if (!name || !model || !cost) return;
-      const id = 'REP-' + Date.now();
-      db.ref('repairList/' + id).set({ custName: name, custPhone: phone, model, issue, cost, date: new Date().toLocaleDateString(), timestamp: new Date().toISOString() });
+      var id = 'REP-' + Date.now();
+      db.ref('repairList/' + id).set({ custName: name, custPhone: phone, model: model, issue: issue, cost: cost, date: new Date().toLocaleDateString() });
       document.getElementById('repCustName').value = ''; document.getElementById('repModel').value = ''; document.getElementById('repCost').value = '';
     }
 
     function renderRepairs() {
-      const container = document.getElementById('repairList');
+      var container = document.getElementById('repairList');
       container.innerHTML = '';
-      repairList.forEach(item => {
+      repairList.forEach(function(item) {
         container.innerHTML += `
           <div class="glass" style="padding: 16px; border-left: 4px solid var(--neon-amber);">
             <b>${item.model}</b> - <span style="color:var(--neon-pink);">${item.issue}</span>
-            <div style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">Customer: ${item.custName} | Cost: ${item.cost.toLocaleString()} Ks</div>
+            <div style="font-size: 12px; color: var(--text-sub);">Customer: ${item.custName} | Cost: ${item.cost.toLocaleString()} Ks</div>
           </div>
         `;
       });
     }
 
-    function setDashboardPeriod(p) { activePeriod = p; renderDashboard(); }
-
     function renderDashboard() {
-      const salesRev = soldList.reduce((sum, s) => sum + s.sellPrice, 0);
-      const salesProfit = soldList.reduce((sum, s) => sum + s.profit, 0);
-      const manualCashIn = cashflowList.filter(c => c.type === 'IN').reduce((sum, c) => sum + c.amount, 0);
-      const totalInflow = salesRev + manualCashIn;
+      var salesRev = soldList.reduce(function(sum, s) { return sum + s.sellPrice; }, 0);
+      var salesProfit = soldList.reduce(function(sum, s) { return sum + s.profit; }, 0);
+      var manualCashIn = cashflowList.filter(function(c) { return c.type === 'IN'; }).reduce(function(sum, c) { return sum + c.amount; }, 0);
+      var totalInflow = salesRev + manualCashIn;
 
-      const stockCost = phoneList.reduce((sum, p) => sum + p.buyPrice, 0);
-      const manualCashOut = cashflowList.filter(c => c.type === 'OUT').reduce((sum, c) => sum + c.amount, 0);
-      const totalOutflow = stockCost + manualCashOut;
+      var stockCost = phoneList.reduce(function(sum, p) { return sum + p.buyPrice; }, 0);
+      var manualCashOut = cashflowList.filter(function(c) { return c.type === 'OUT'; }).reduce(function(sum, c) { return sum + c.amount; }, 0);
+      var totalOutflow = stockCost + manualCashOut;
 
       document.getElementById('dashTotalInflow').innerText = totalInflow.toLocaleString() + ' Ks';
       document.getElementById('dashTotalOutflow').innerText = totalOutflow.toLocaleString() + ' Ks';
       document.getElementById('dashNetCash').innerText = (totalInflow - totalOutflow).toLocaleString() + ' Ks';
       document.getElementById('dashSalesProfit').innerText = salesProfit.toLocaleString() + ' Ks';
-
-      const transContainer = document.getElementById('dashPeriodTransactionsList');
-      transContainer.innerHTML = '';
-      soldList.slice(0, 6).forEach(s => {
-        transContainer.innerHTML += `
-          <div style="display: flex; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; border-left: 3px solid var(--neon-green);">
-            <b>📱 ${s.brand} ${s.model} (ရောင်းချမှု)</b>
-            <b style="color: var(--neon-green); font-family: 'Orbitron';">+${s.sellPrice.toLocaleString()} Ks</b>
-          </div>
-        `;
-      });
     }
 
     function renderAllLayouts() {
