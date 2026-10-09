@@ -1,72 +1,489 @@
 <!doctype html>
-<html lang="my"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111522"><title>Zin Min Mobile POS</title>
+<html lang="my">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111522">
+<title>Zin Min Mobile POS</title>
 <style>
-:root{--bg:#10131d;--panel:#ffffff10;--panel2:#ffffff18;--text:#f4f6ff;--muted:#aab4c8;--line:#ffffff20;--a:#72ddff;--b:#a69bff;--good:#55d6a4;--bad:#ff8296}body.light{--bg:#edf1f7;--panel:#ffffffc9;--panel2:#fff;--text:#172033;--muted:#586579;--line:#1c2d491c}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top left,#2b3655,transparent 45%),var(--bg);color:var(--text);font:15px system-ui,sans-serif;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer;color:var(--text);background:var(--panel);border:1px solid var(--line);padding:10px 13px;border-radius:12px}button.primary{background:linear-gradient(120deg,var(--a),var(--b));color:#101525;border:0;font-weight:750}input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:var(--text)}option{color:#172033}.hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:.83rem}.app{display:grid;grid-template-columns:235px 1fr;min-height:100vh}.side{padding:17px 12px;border-right:1px solid var(--line);background:#10131d77;backdrop-filter:blur(20px);position:sticky;top:0;height:100vh;overflow:auto}.brand{display:flex;gap:10px;align-items:center;padding:8px 7px 20px}.logo{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(130deg,var(--a),var(--b));color:#11172a;font-weight:900}.brand small{display:block;color:var(--muted)}.nav{display:block;width:100%;text-align:left;border-color:transparent;background:transparent;color:var(--muted);margin:3px 0}.nav.active,.nav:hover{background:var(--panel2);border-color:var(--line);color:var(--text)}.main{padding:22px;min-width:0}.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}.top h1{margin:0;font-size:clamp(1.35rem,3vw,2rem)}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:15px}.two{grid-template-columns:1.2fr .8fr}.card{padding:17px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(20px);border-radius:20px;min-width:0;box-shadow:0 14px 35px #0002}.label{font-size:.85rem;color:var(--muted)}.value{font-size:clamp(1.15rem,2.5vw,1.7rem);font-weight:800;margin:9px 0}.head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.head h2{margin:0;font-size:1.08rem}.page{display:none}.page.active{display:block}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.toolbar>*{flex:1;min-width:100px}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}td,th{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:.88rem}th{color:var(--muted)}.pill{display:inline-block;border:1px solid var(--line);padding:4px 8px;border-radius:99px;font-size:.78rem}.good{color:var(--good)}.bad{color:var(--bad)}.field{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}.field label{font-size:.84rem;color:var(--muted)}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.full{grid-column:1/-1}.notice{border:1px solid #72ddff3b;background:#72ddff0e;border-radius:13px;padding:13px;color:var(--muted);line-height:1.5}.empty{text-align:center;padding:25px;color:var(--muted)}.profile{display:flex;gap:15px;align-items:center;flex-wrap:wrap}.avatar{width:82px;height:82px;border-radius:50%;overflow:hidden;background:linear-gradient(130deg,var(--a),var(--b));display:grid;place-items:center;color:#12172a;font-weight:900;font-size:1.5rem}.avatar img,.story img,.cover img{width:100%;height:100%;object-fit:cover}.stories{display:flex;gap:13px;overflow:auto;padding:12px 0}.story{flex:0 0 80px;text-align:center;font-size:.78rem;color:var(--muted)}.ring{width:70px;height:70px;border-radius:50%;padding:3px;background:linear-gradient(130deg,var(--a),var(--b),#ff99c9);margin:auto auto 6px;cursor:pointer}.ringin{height:100%;border-radius:50%;border:3px solid var(--bg);background:var(--panel2);overflow:hidden;display:grid;place-items:center}.cover{height:170px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;overflow:hidden;color:var(--muted);margin:10px 0}.login{min-height:100vh;display:grid;place-items:center;padding:16px}.login .card{width:min(430px,100%);padding:25px}.modalbg{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:14px;z-index:10}.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:20px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;background:var(--panel2);border:1px solid var(--line);padding:12px 17px;border-radius:12px;max-width:90vw}.foot{text-align:center;color:var(--muted);font-size:.8rem;margin:24px}.mobile{display:none}
+:root{--bg:#10131d;--panel:#ffffff10;--panel2:#ffffff18;--text:#f4f6ff;--muted:#aab4c8;--line:#ffffff20;--a:#72ddff;--b:#a69bff;--good:#55d6a4;--bad:#ff8296}
+body.light{--bg:#edf1f7;--panel:#ffffffc9;--panel2:#fff;--text:#172033;--muted:#586579;--line:#1c2d491c}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top left,#2b3655,transparent 45%),var(--bg);color:var(--text);font:15px system-ui,sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;color:var(--text);background:var(--panel);border:1px solid var(--line);padding:10px 13px;border-radius:12px}
+button.primary{background:linear-gradient(120deg,var(--a),var(--b));color:#101525;border:0;font-weight:750}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:var(--text)}
+option{color:#172033}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+.small{font-size:.83rem}
+.app{display:grid;grid-template-columns:235px 1fr;min-height:100vh}
+.side{padding:17px 12px;border-right:1px solid var(--line);background:#10131d77;backdrop-filter:blur(20px);position:sticky;top:0;height:100vh;overflow:auto}
+.brand{display:flex;gap:10px;align-items:center;padding:8px 7px 20px}
+.logo{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(130deg,var(--a),var(--b));color:#11172a;font-weight:900}
+.brand small{display:block;color:var(--muted)}
+.nav{display:block;width:100%;text-align:left;border-color:transparent;background:transparent;color:var(--muted);margin:3px 0}
+.nav.active,.nav:hover{background:var(--panel2);border-color:var(--line);color:var(--text)}
+.main{padding:22px;min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:20px}
+.top h1{margin:0;font-size:clamp(1.35rem,3vw,2rem)}
+.grid{display:grid;gap:14px}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:15px}
+.two{grid-template-columns:1.2fr .8fr}
+.card{padding:17px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(20px);border-radius:20px;min-width:0;box-shadow:0 14px 35px #0002}
+.label{font-size:.85rem;color:var(--muted)}
+.value{font-size:clamp(1.15rem,2.5vw,1.7rem);font-weight:800;margin:9px 0}
+.head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.head h2{margin:0;font-size:1.08rem}
+.page{display:none}
+.page.active{display:block}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.toolbar>*{flex:1;min-width:100px}
+.tablewrap{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:650px}
+td,th{padding:11px 9px;border-bottom:1px solid var(--line);text-align:left;font-size:.88rem}
+th{color:var(--muted)}
+.pill{display:inline-block;border:1px solid var(--line);padding:4px 8px;border-radius:99px;font-size:.78rem}
+.good{color:var(--good)}
+.bad{color:var(--bad)}
+.field{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}
+.field label{font-size:.84rem;color:var(--muted)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.full{grid-column:1/-1}
+.notice{border:1px solid #72ddff3b;background:#72ddff0e;border-radius:13px;padding:13px;color:var(--muted);line-height:1.5}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.profile{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+.avatar{width:82px;height:82px;border-radius:50%;overflow:hidden;background:linear-gradient(130deg,var(--a),var(--b));display:grid;place-items:center;color:#12172a;font-weight:900;font-size:1.5rem}
+.avatar img,.story img,.cover img{width:100%;height:100%;object-fit:cover}
+.stories{display:flex;gap:13px;overflow:auto;padding:12px 0}
+.story{flex:0 0 80px;text-align:center;font-size:.78rem;color:var(--muted)}
+.ring{width:70px;height:70px;border-radius:50%;padding:3px;background:linear-gradient(130deg,var(--a),var(--b),#ff99c9);margin:auto auto 6px;cursor:pointer}
+.ringin{height:100%;border-radius:50%;border:3px solid var(--bg);background:var(--panel2);overflow:hidden;display:grid;place-items:center}
+.cover{height:170px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;overflow:hidden;color:var(--muted);margin:10px 0}
+.modalbg{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:14px;z-index:10}
+.modal{width:min(650px,100%);max-height:90vh;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:20px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;background:var(--panel2);border:1px solid var(--line);padding:12px 17px;border-radius:12px;max-width:90vw}
+.foot{text-align:center;color:var(--muted);font-size:.8rem;margin:24px}
+.mobile{display:none}
 @media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
 @media(max-width:650px){.app{display:block}.side{position:fixed;z-index:20;left:-260px;width:245px;background:var(--bg);transition:left .2s}.side.open{left:0}.main{padding:13px}.mobile{display:inline-block}.card{padding:13px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.stats{gap:9px}}
-</style></head><body>
-<div id="appView" class="app"><aside class="side" id="side"><div class="brand"><div class="logo">ZM</div><div><b>Zin Min Mobile</b><small>Liquid Glass POS</small></div></div>
-<button class="nav active" data-page="dashboard">⌂　Dashboard</button><button class="nav" data-page="stock">▣　Phone Stock</button><button class="nav" data-page="sold">✓　Sold History</button><button class="nav" data-page="cash">⇄　Cash Flow</button><button class="nav" data-page="repair">⚒　Repair Service</button><button class="nav" data-page="profile">◎　Shop Profile</button><button class="nav" data-page="settings">⚙　Menu & Settings</button><button class="nav" id="logout">⇥　Logout</button></aside>
-<main class="main"><header class="top"><div style="display:flex;gap:10px;align-items:center"><button class="mobile" id="menubtn">☰</button><div><h1 id="title">Dashboard</h1><span class="small muted" id="today"></span></div></div><div><button id="quickTheme">☼</button> <button id="quickProfile">◎</button></div></header>
-<section class="page active" id="page-dashboard"><div class="grid stats"><div class="card"><div class="label">Phones in Stock</div><div class="value" id="sStock">0</div></div><div class="card"><div class="label">Total Sold</div><div class="value" id="sSold">0</div></div><div class="card"><div class="label">Sales Revenue</div><div class="value" id="sRevenue">Ks 0</div></div><div class="card"><div class="label">Stock Buy Value</div><div class="value" id="sValue">Ks 0</div></div></div><div class="grid two"><div class="card"><div class="head"><h2>Recent Phones</h2><button data-goto="stock">View all</button></div><div class="tablewrap"><table><thead><tr><th>Phone</th><th>IMEI</th><th>Buy Price</th><th>Status</th></tr></thead><tbody id="recent"></tbody></table></div></div><div class="card"><div class="head"><h2>Account Balances</h2></div><div id="balances"></div><div class="notice">လက်ကျန်ငွေကို Cash Flow records ကနေ တွက်ပါတယ်။ စတင်လက်ကျန်ရှိပါက Opening Balance ကို Income အဖြစ် မှတ်တမ်းတင်ပါ။</div></div></div><div class="card" style="margin-top:14px"><div class="head"><h2>Quick Actions</h2></div><div class="toolbar"><button class="primary" id="quickAdd">＋ Stock In</button><button id="quickSell">↗ Sell Phone</button><button data-goto="cash">＋ Cash Flow</button><button data-goto="repair">⚒ Repair Job</button></div></div></section>
-<section class="page" id="page-stock"><div class="card"><div class="head"><h2>Phone Inventory</h2><button class="primary" id="addPhone">＋ Stock In</button></div><div class="toolbar"><input id="stockSearch" placeholder="Model, brand, IMEI, colour ရှာရန်"><select id="stockFilter"><option value="all">All phones</option><option value="available">Available</option><option value="sold">Sold</option></select></div><div class="tablewrap"><table><thead><tr><th>Brand / Model</th><th>IMEI</th><th>Colour</th><th>Buy</th><th>Sell</th><th>Status</th><th>Action</th></tr></thead><tbody id="phoneRows"></tbody></table></div></div></section>
-<section class="page" id="page-sold"><div class="card"><div class="head"><h2>Sold History</h2><button id="exportSold">Export CSV</button></div><input id="soldSearch" placeholder="ဖုန်း / IMEI / ရက်စွဲရှာရန်"><div class="tablewrap"><table><thead><tr><th>Date</th><th>Phone</th><th>IMEI</th><th>Sale Price</th><th>Account</th><th>Profit</th><th>Receipt</th></tr></thead><tbody id="soldRows"></tbody></table></div></div></section>
-<section class="page" id="page-cash"><div class="grid stats"><div class="card"><div class="label">Cash In Hand</div><div class="value" id="balCash">Ks 0</div></div><div class="card"><div class="label">KBZPay</div><div class="value" id="balKBZ">Ks 0</div></div><div class="card"><div class="label">WaveMoney</div><div class="value" id="balWave">Ks 0</div></div><div class="card"><div class="label">Bank Account</div><div class="value" id="balBank">Ks 0</div></div></div><div class="card"><div class="head"><h2>Income / Expense</h2><button class="primary" id="addFlow">＋ Add Record</button></div><div class="toolbar"><select id="flowFilter"><option value="all">All records</option><option>Income</option><option>Expense</option></select><input id="flowSearch" placeholder="Note ရှာရန်"></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Note</th><th>Account</th><th>Amount</th><th>Action</th></tr></thead><tbody id="flowRows"></tbody></table></div></div></section>
-<section class="page" id="page-repair"><div class="card"><div class="head"><h2>Repair Service</h2><button class="primary" id="addRepair">＋ New Repair</button></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Phone / Problem</th><th>Price</th><th>Status</th><th>Action</th></tr></thead><tbody id="repairRows"></tbody></table></div></div></section>
-<section class="page" id="page-profile"><div class="grid two"><div class="card"><div class="head"><h2>Shop Profile</h2></div><div class="profile"><div class="avatar" id="avatar">ZM</div><div><b id="profileNameDisplay">Zin Min Mobile Shop</b><p id="profileAddressDisplay" class="small muted">ဆိုင်တည်နေရာ</p><label for="avatarFile"><button type="button">Upload profile photo</button></label><input class="hidden" id="avatarFile" type="file" accept="image/*"></div></div><div class="field"><label>Shop Name</label><input id="shopName" value="Zin Min Mobile Shop"></div><div class="field"><label>Shop Address / Location</label><input id="shopAddress" placeholder="ဆိုင်လိပ်စာ / မြို့နယ်"></div><div class="field"><label>Google Maps link</label><input id="shopMap" placeholder="https://maps.google.com/..."></div><div class="field"><label>Shop phone</label><input id="shopPhone" placeholder="09..."></div><div class="field"><label>About shop</label><textarea id="shopAbout"></textarea></div><button class="primary" id="saveProfile">Save Profile</button></div><div class="card"><div class="head"><h2>Shop Photos / Story Circles</h2><label for="storyFile"><button type="button">＋ Add photo</button></label><input id="storyFile" class="hidden" type="file" accept="image/*"></div><p class="muted small">TikTok လို အဝိုင်းပုံများ၊ ဆိုင်ပုံများ၊ ဖုန်းပုံများ ထည့်နိုင်သည်။ အခြား browser များတွင်လည်း မြင်ရရန် Firebase Storage Enable လုပ်ထားပါ။</p><div id="stories" class="stories"></div><div id="cover" class="cover">Shop photo preview</div><div class="notice">ပုံတင်ရန် Firebase Console → Storage ကို Enable လုပ်ရန်လိုသည်။</div></div></div></section>
-<section class="page" id="page-settings"><div class="grid two"><div class="card"><div class="head"><h2>Menu Settings</h2></div><div class="field"><label>Language</label><select id="language"><option value="my">မြန်မာ</option><option value="en">English</option><option value="th">ไทย</option><option value="zh">中文</option></select></div><div class="field"><label>Display</label><select id="theme"><option value="dark">Dark / Liquid Glass</option><option value="light">Light</option><option value="auto">System default</option></select></div><div class="field"><label>Currency</label><select id="currency"><option>Ks</option><option>฿</option><option>$</option><option>¥</option></select></div><div class="field"><label>Default purchase account</label><select id="defaultAccount"><option>Cash</option><option>KBZPay</option><option>WaveMoney</option><option>Bank</option></select></div><button class="primary" id="saveSettings">Save Settings</button><hr style="border-color:var(--line);margin:20px 0"><h2>Receipt & Printer Setup</h2><div class="field"><label>Receipt footer</label><input id="receiptFooter" value="Thank you for shopping with us!"></div><div class="field"><label>Paper width</label><select id="receiptWidth"><option value="58">58mm thermal</option><option value="80">80mm thermal</option><option value="normal">Normal paper</option></select></div><button id="saveReceipt">Save Receipt Settings</button><button id="testPrint" style="margin-left:6px">Test Print</button></div><div class="card"><h2>Menu / User Guide / FAQ</h2><br><div class="notice"><b>1. User Guide / FAQ / Video Guide</b><br>Stock In, Sell, Cash Flow အသုံးပြုပုံ။</div><br><div class="notice"><b>2. Language</b><br>မြန်မာ / English / Thai / Chinese ရွေးနိုင်သည်။</div><br><div class="notice"><b>3. Display Options</b><br>Light / Dark mode အလုပ်လုပ်သည်။</div><br><div class="notice"><b>4. Shop & System Settings</b><br>ဆိုင်အချက်အလက်၊ currency နှင့် account setting။</div><br><div class="notice"><b>5. Data & Cloud Sync</b><br>Firebase Realtime Database ကို အခြား browser များနှင့် sync လုပ်မည်။</div><br><div class="notice"><b>6. Receipt & Printer Setup</b><br>Receipt print လုပ်နိုင်သည်။</div><br><div class="notice"><b>7. App Info & Support</b><br>Developer: Aung Zin Min<br>Contact: 09753845426 / 09683216081<br>Email: azin80502@gmail.com<br>Version: 1.0.0</div><p><button id="checkUpdate">Check for updates</button> <button id="help">Open User Guide</button></p></div></div></section>
-<div class="foot">Zin Min Mobile POS · Developer Aung Zin Min · Version 1.0.0</div></main></div><div id="modalRoot" class="hidden"></div><div id="toast" class="toast hidden"></div>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import{getDatabase,ref,onValue,set,push,update,remove,forceLongPolling}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import{getStorage,ref as sref,uploadBytes,getDownloadURL}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-const config={apiKey:"AIzaSyBPrKPhkYexhBI8gkCC4qqsBCKgd-FwMZM",authDomain:"zin-min-mobile-pos.firebaseapp.com",databaseURL:"https://zin-min-mobile-pos-default-rtdb.firebaseio.com",projectId:"zin-min-mobile-pos",storageBucket:"zin-min-mobile-pos.firebasestorage.app",messagingSenderId:"1035417138265",appId:"1:1035417138265:web:9602961adda94012e16d48",measurementId:"G-SEY52GVLCY"};
-const app=initializeApp(config),db=getDatabase(app),storage=getStorage(app),$=id=>document.getElementById(id),accounts=["Cash","KBZPay","WaveMoney","Bank"];
-// More reliable Firebase transport on networks where WebSocket connections stall.
-forceLongPolling(db);
-function saveWithTimeout(promise, label="Database save"){let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error(label+" timed out after 15 seconds. Check Firebase Realtime Database Rules and internet connection.")),15000)})]).finally(()=>clearTimeout(timer))}
-let phones={},flows={},sold={},repairs={},profile={},settings={},stories={},unsubs=[],cur="Ks";
-const R=p=>ref(db,p),money=n=>cur+" "+Number(n||0).toLocaleString("en-US"),date=()=>new Date().toISOString().slice(0,10),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-function toast(t){$("toast").textContent=t;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2800)}
-function page(p){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$("page-"+p).classList.add("active");document.querySelectorAll(".nav[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===p));$("title").textContent=({dashboard:"Dashboard",stock:"Phone Stock",sold:"Sold History",cash:"Cash Flow",repair:"Repair Service",profile:"Shop Profile",settings:"Menu & Settings"})[p];$("side").classList.remove("open");if(p==="settings")fillSettings();if(p==="profile")fillProfile()}
-function attach(){unsubs.forEach(f=>f());unsubs=[];for(const k of ["phones","cashflow","sold","repairs","shopProfile","settings","stories"]){unsubs.push(onValue(R(k),s=>{let v=s.val()||{};if(k==="phones")phones=v;if(k==="cashflow")flows=v;if(k==="sold")sold=v;if(k==="repairs")repairs=v;if(k==="shopProfile")profile=v;if(k==="settings"){settings=v;cur=v.currency||"Ks";theme(v.theme||"dark")}if(k==="stories")stories=v;$("sync").textContent="Connected";render()} ,e=>{$("sync").textContent="Database error";console.error("Firebase read failed:",e);toast((e.code?e.code+": ":"")+(e.message||"Database read failed"))}))}}
-function balances(){let b={Cash:0,KBZPay:0,WaveMoney:0,Bank:0};Object.values(flows).forEach(x=>b[x.account in b?x.account:"Cash"]+=(x.type==="Expense"?-1:1)*Number(x.amount||0));return b}
-function render(){let ps=Object.values(phones),ss=Object.values(sold),b=balances();$("sStock").textContent=ps.filter(p=>p.status!=="sold").length;$("sSold").textContent=ss.length;$("sRevenue").textContent=money(ss.reduce((a,p)=>a+Number(p.salePrice||0),0));$("sValue").textContent=money(ps.filter(p=>p.status!=="sold").reduce((a,p)=>a+Number(p.buyPrice||0),0));$("balances").innerHTML=accounts.map(a=>`<p style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:7px 0"><span>${a}</span><b>${money(b[a])}</b></p>`).join("");for(let [id,el] of [["Cash","balCash"],["KBZPay","balKBZ"],["WaveMoney","balWave"],["Bank","balBank"]])$(el).textContent=money(b[id]);
-$("recent").innerHTML=Object.values(phones).slice(-5).reverse().map(p=>`<tr><td>${esc(p.brand)} ${esc(p.model)}</td><td>${esc(p.imei||"—")}</td><td>${money(p.buyPrice)}</td><td>${p.status==="sold"?"Sold":"Available"}</td></tr>`).join("")||'<tr><td colspan="4" class="empty">ဖုန်းမရှိသေးပါ</td></tr>';
-let q=($("stockSearch")?.value||"").toLowerCase(),f=$("stockFilter")?.value||"all",list=Object.entries(phones).filter(([id,p])=>[p.brand,p.model,p.imei,p.color].join(" ").toLowerCase().includes(q)&&(f==="all"||(f==="sold"?p.status==="sold":p.status!=="sold"))).reverse();
-$("phoneRows").innerHTML=list.map(([id,p])=>`<tr><td><b>${esc(p.brand)} ${esc(p.model)}</b><div class="small muted">${esc(p.date||"")}</div></td><td>${esc(p.imei||"—")}</td><td>${esc(p.color||"—")}</td><td>${money(p.buyPrice)}</td><td>${money(p.sellPrice)}</td><td><span class="pill ${p.status==="sold"?"bad":"good"}">${p.status==="sold"?"Sold":"Available"}</span></td><td>${p.status==="sold"?"":`<button data-sell="${id}">Sell</button>`} <button data-edit="${id}">Edit</button> <button data-del="${id}">×</button></td></tr>`).join("")||'<tr><td colspan="7" class="empty">Stock In ကိုနှိပ်ပါ</td></tr>';
-q=($("soldSearch")?.value||"").toLowerCase();$("soldRows").innerHTML=Object.entries(sold).filter(([id,p])=>[p.brand,p.model,p.imei,p.date].join(" ").toLowerCase().includes(q)).reverse().map(([id,p])=>`<tr><td>${esc(p.date)}</td><td>${esc(p.brand)} ${esc(p.model)}</td><td>${esc(p.imei)}</td><td>${money(p.salePrice)}</td><td>${esc(p.account)}</td><td>${money(Number(p.salePrice||0)-Number(p.buyPrice||0))}</td><td><button data-receipt="${id}">Print</button></td></tr>`).join("")||'<tr><td colspan="7" class="empty">ရောင်းချမှု မရှိသေးပါ</td></tr>';
-q=($("flowSearch")?.value||"").toLowerCase();f=$("flowFilter")?.value||"all";$("flowRows").innerHTML=Object.entries(flows).filter(([id,x])=>(f==="all"||x.type===f)&&[x.note,x.account,x.date].join(" ").toLowerCase().includes(q)).reverse().map(([id,x])=>`<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.note)}</td><td>${esc(x.account)}</td><td>${x.type==="Expense"?"−":"+"}${money(x.amount)}</td><td><button data-delflow="${id}">Delete</button></td></tr>`).join("")||'<tr><td colspan="6" class="empty">စာရင်းမရှိသေးပါ</td></tr>';
-$("repairRows").innerHTML=Object.entries(repairs).reverse().map(([id,r])=>`<tr><td>${esc(r.date)}</td><td>${esc(r.customer)}</td><td>${esc(r.phone)}<div class="small muted">${esc(r.problem)}</div></td><td>${money(r.price)}</td><td>${esc(r.status)}</td><td><button data-done="${id}">Done</button> <button data-delrepair="${id}">×</button></td></tr>`).join("")||'<tr><td colspan="6" class="empty">Repair မရှိသေးပါ</td></tr>';
-renderProfile();renderStories();bindRowButtons()}
-function modal(title,body,submit,fn){$("modalRoot").classList.remove("hidden");$("modalRoot").innerHTML=`<div class="modalbg"><div class="modal"><div class="head"><h2>${title}</h2><button id="close">✕</button></div><form id="mf" novalidate>${body}<div class="toolbar"><button type="button" id="cancel">Cancel</button><button type="submit" class="primary">${submit}</button></div></form></div></div>`;$("close").onclick=$("cancel").onclick=closeModal;$("modalRoot").querySelector(".modalbg").onclick=e=>{if(e.target.classList.contains("modalbg"))closeModal()};$("mf").onsubmit=async e=>{e.preventDefault();const form=e.currentTarget;let b=form.querySelector('button[type="submit"]');const missing=[...form.querySelectorAll('[required]')].find(x=>!String(x.value||'').trim());if(missing){toast((missing.previousElementSibling?.textContent||missing.name)+" ဖြည့်ပါ");missing.focus();return}if(b){b.disabled=true;b.textContent="Saving…"}toast("သိမ်းဆည်းနေသည်…");try{await saveWithTimeout(fn(Object.fromEntries(new FormData(form))),"Save");closeModal()}catch(err){console.error("POS save failed:",err);const msg=(err.code?err.code+" — ":"")+(err.message||String(err)||"Unknown error");toast("Save မအောင်မြင်: "+msg);alert("Save မအောင်မြင်ပါ။\n"+msg);if(b){b.disabled=false;b.textContent=submit}}}}
-function closeModal(){$("modalRoot").classList.add("hidden");$("modalRoot").innerHTML=""}
-const field=(l,n,v="",type="text",req=false)=>`<div class="field"><label>${l}</label><input name="${n}" type="${type}" value="${esc(v)}" ${req?"required":""}></div>`,select=(l,n,opts,v)=>`<div class="field"><label>${l}</label><select name="${n}">${opts.map(x=>`<option ${x===v?"selected":""}>${x}</option>`).join("")}</select></div>`;
-function phoneForm(id){let p=phones[id]||{};modal(id?"Edit Phone":"Stock In",`<div class="formgrid">${field("Brand","brand",p.brand,"text",true)}${field("Model Name","model",p.model,"text",true)}${field("IMEI","imei",p.imei)}${field("Colour","color",p.color)}${field("Stock In Date","date",p.date||date(),"date",true)}${field("Buy Price","buyPrice",p.buyPrice||0,"number",true)}${field("Sell Price","sellPrice",p.sellPrice||0,"number",true)}${select("Paid From","buyAccount",accounts,p.buyAccount||settings.defaultAccount||"Cash")}</div>`,"Save",async d=>{d.buyPrice=+d.buyPrice;d.sellPrice=+d.sellPrice;d.status=p.status||"available";if(id)await update(R("phones/"+id),d);else{await set(push(R("phones")),{...d,createdAt:Date.now()});if(d.buyPrice>0)await set(push(R("cashflow")),{type:"Expense",amount:d.buyPrice,account:d.buyAccount,date:d.date,note:`Stock purchase ${d.brand} ${d.model}`,createdAt:Date.now()})}toast("Phone saved")})}
-function sellPhone(id){let p=phones[id];if(!p)return;modal("Sell Phone",`<div class="notice">${esc(p.brand)} ${esc(p.model)} · IMEI ${esc(p.imei||"—")}</div><br><div class="formgrid">${field("Sale Date","date",date(),"date",true)}${field("Sale Price","salePrice",p.sellPrice||0,"number",true)}${select("Received Account","account",accounts,"Cash")}${field("Customer Name","customer")}${field("Customer Phone","customerPhone")}</div>`,"Confirm Sale",async d=>{let s={...p,date:d.date,salePrice:+d.salePrice,account:d.account,customer:d.customer,customerPhone:d.customerPhone,phoneId:id};await set(push(R("sold")),s);await update(R("phones/"+id),{status:"sold",soldDate:d.date,salePrice:+d.salePrice});await set(push(R("cashflow")),{type:"Income",amount:+d.salePrice,account:d.account,date:d.date,note:`Phone sale ${p.brand} ${p.model}`,createdAt:Date.now()});toast("Sale saved");print(s)})}
-function flowForm(){modal("Add Income / Expense",`<div class="formgrid">${select("Type","type",["Income","Expense"],"Income")}${field("Date","date",date(),"date",true)}${field("Amount","amount","","number",true)}${select("Account","account",accounts,"Cash")}<div class="full">${field("Note","note")}</div></div>`,"Save",async d=>{d.amount=+d.amount;if(d.amount<=0)throw Error("Amount must be positive");await set(push(R("cashflow")),{...d,createdAt:Date.now()});toast("Cash flow saved")})}
-function repairForm(){modal("New Repair Job",`<div class="formgrid">${field("Date","date",date(),"date",true)}${field("Customer","customer","","text",true)}${field("Phone Model","phone","","text",true)}${field("Price","price",0,"number",true)}${select("Status","status",["Pending","In Progress","Waiting Parts","Completed"],"Pending")}<div class="full">${field("Problem / Notes","problem")}</div></div>`,"Save",async d=>{d.price=+d.price;await set(push(R("repairs")),{...d,createdAt:Date.now()});toast("Repair saved")})}
-function print(p){let w=window.open("","_blank","width=400,height=600");if(!w){toast("Popup ကိုခွင့်ပြုပေးပါ");return}w.document.write(`<body style="font:14px monospace;max-width:300px;margin:20px auto"><h2 style="text-align:center">${esc(profile.name||"Zin Min Mobile Shop")}</h2><p>${esc(profile.address||"")}</p><hr><p>Date: ${esc(p.date||date())}</p><p>Phone: ${esc(p.brand)} ${esc(p.model)}</p><p>IMEI: ${esc(p.imei||"—")}</p><p>Account: ${esc(p.account||"Cash")}</p><hr><h3>Total: ${money(p.salePrice)}</h3><p style="text-align:center">${esc(settings.receiptFooter||"Thank you for shopping with us!")}</p><button onclick="print()">Print</button></body>`);w.document.close();setTimeout(()=>w.print(),300)}
-function bindRowButtons(){document.querySelectorAll("[data-sell]").forEach(b=>b.onclick=()=>sellPhone(b.dataset.sell));document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>phoneForm(b.dataset.edit));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(confirm("ဖုန်းမှတ်တမ်းဖျက်မလား?"))await remove(R("phones/"+b.dataset.del))});document.querySelectorAll("[data-delflow]").forEach(b=>b.onclick=async()=>{if(confirm("Cash flow ဖျက်မလား?"))await remove(R("cashflow/"+b.dataset.delflow))});document.querySelectorAll("[data-done]").forEach(b=>b.onclick=()=>update(R("repairs/"+b.dataset.done),{status:"Completed"}));document.querySelectorAll("[data-delrepair]").forEach(b=>b.onclick=async()=>{if(confirm("Repair ဖျက်မလား?"))await remove(R("repairs/"+b.dataset.delrepair))});document.querySelectorAll("[data-receipt]").forEach(b=>b.onclick=()=>print(sold[b.dataset.receipt]))}
-function theme(t){document.body.classList.toggle("light",t==="light"||(t==="auto"&&matchMedia("(prefers-color-scheme: light)").matches))}
-function fillSettings(){ $("language").value=settings.language||"my";$("theme").value=settings.theme||"dark";$("currency").value=settings.currency||"Ks";$("defaultAccount").value=settings.defaultAccount||"Cash";$("receiptFooter").value=settings.receiptFooter||"Thank you for shopping with us!";$("receiptWidth").value=settings.receiptWidth||"58"}
-function fillProfile(){$("shopName").value=profile.name||"Zin Min Mobile Shop";$("shopAddress").value=profile.address||"";$("shopMap").value=profile.map||"";$("shopPhone").value=profile.phone||"";$("shopAbout").value=profile.about||""}
-function renderProfile(){$("profileNameDisplay").textContent=profile.name||"Zin Min Mobile Shop";$("profileAddressDisplay").textContent=profile.address||"ဆိုင်တည်နေရာ မထည့်ရသေးပါ";$("avatar").innerHTML=profile.avatar?`<img src="${esc(profile.avatar)}">`:"ZM";$("cover").innerHTML=profile.cover?`<img src="${esc(profile.cover)}">`:"Shop photo preview"}
-function renderStories(){$("stories").innerHTML=Object.entries(stories).map(([id,s])=>`<div class="story"><div class="ring" data-story="${id}"><div class="ringin">${s.url?`<img src="${esc(s.url)}">`:"＋"}</div></div>${esc(s.title||"Shop photo")}<br><button data-dstory="${id}">Delete</button></div>`).join("")||'<span class="muted small">ပုံမတင်ရသေးပါ။</span>';document.querySelectorAll("[data-story]").forEach(x=>x.onclick=()=>{$("cover").innerHTML=`<img src="${esc(stories[x.dataset.story].url)}">`});document.querySelectorAll("[data-dstory]").forEach(x=>x.onclick=async()=>{if(confirm("ပုံဖျက်မလား?"))await remove(R("stories/"+x.dataset.dstory))})}
-async function upload(file,path){if(!file)return null;if(file.size>5*1024*1024)throw Error("ပုံအရွယ်အစား 5MB အောက်ထားပါ");let r=sref(storage,path+"/"+Date.now()+"_"+file.name.replace(/[^a-z0-9._-]/gi,"_"));await uploadBytes(r,file);return getDownloadURL(r)}
+</style>
+</head>
+<body>
+<div id="appView" class="app">
+  <aside class="side" id="side">
+    <div class="brand">
+      <div class="logo">ZM</div>
+      <div><b>Zin Min Mobile</b><small>Liquid Glass POS</small></div>
+    </div>
+    <button class="nav active" data-page="dashboard">⌂　Dashboard</button>
+    <button class="nav" data-page="stock">▣　Phone Stock</button>
+    <button class="nav" data-page="sold">✓　Sold History</button>
+    <button class="nav" data-page="cash">⇄　Cash Flow</button>
+    <button class="nav" data-page="repair">⚒　Repair Service</button>
+    <button class="nav" data-page="profile">◎　Shop Profile</button>
+    <button class="nav" data-page="settings">⚙　Menu & Settings</button>
+    <button class="nav" id="logout">⇥　Logout</button>
+    <div class="card" style="margin-top:15px">
+      <span class="good">● <span id="sync">Connecting…</span></span>
+      <p class="small muted">Firebase live sync</p>
+      <button id="syncBtn">↻ Sync status</button>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="mobile" id="menubtn">☰</button>
+        <div><h1 id="title">Dashboard</h1><span class="small muted" id="today"></span></div>
+      </div>
+      <div><button id="quickTheme">☼</button> <button id="quickProfile">◎</button></div>
+    </header>
+    
+    <section class="page active" id="page-dashboard">
+      <div class="grid stats">
+        <div class="card"><div class="label">Phones in Stock</div><div class="value" id="sStock">0</div></div>
+        <div class="card"><div class="label">Total Sold</div><div class="value" id="sSold">0</div></div>
+        <div class="card"><div class="label">Sales Revenue</div><div class="value" id="sRevenue">Ks 0</div></div>
+        <div class="card"><div class="label">Stock Buy Value</div><div class="value" id="sValue">Ks 0</div></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <div class="head"><h2>Recent Phones</h2><button data-goto="stock">View all</button></div>
+          <div class="tablewrap"><table><thead><tr><th>Phone</th><th>IMEI</th><th>Buy Price</th><th>Status</th></tr></thead><tbody id="recent"></tbody></table></div>
+        </div>
+        <div class="card">
+          <div class="head"><h2>Account Balances</h2></div>
+          <div id="balances"></div>
+          <div class="notice">လက်ကျန်ငွေကို Cash Flow records ကနေ တွက်ပါတယ်။ စတင်လက်ကျန်ရှိပါက Opening Balance ကို Income အဖြစ် မှတ်တမ်းတင်ပါ။</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="head"><h2>Quick Actions</h2></div>
+        <div class="toolbar">
+          <button class="primary" id="quickAdd">＋ Stock In</button>
+          <button id="quickSell">↗ Sell Phone</button>
+          <button data-goto="cash">＋ Cash Flow</button>
+          <button data-goto="repair">⚒ Repair Job</button>
+        </div>
+      </div>
+    </section>
 
-$("logout").onclick=()=>{if(confirm("Website ကို ပြန်ဖွင့်မလား?"))location.reload()};$("menubtn").onclick=()=>$("side").classList.toggle("open");document.querySelectorAll(".nav[data-page]").forEach(b=>b.onclick=()=>page(b.dataset.page));document.querySelectorAll("[data-goto]").forEach(b=>b.onclick=()=>page(b.dataset.goto));$("quickProfile").onclick=()=>page("profile");$("quickTheme").onclick=async()=>{let t=document.body.classList.contains("light")?"dark":"light";theme(t);await update(R("settings"),{theme:t})};
-$("addPhone").onclick=$("quickAdd").onclick=()=>phoneForm();$("quickSell").onclick=()=>{let p=Object.entries(phones).find(([id,p])=>p.status!=="sold");p?sellPhone(p[0]):toast("Available phone မရှိပါ")};$("addFlow").onclick=flowForm;$("addRepair").onclick=repairForm;
-["stockSearch","stockFilter","soldSearch","flowSearch","flowFilter"].forEach(id=>$(id).addEventListener("input",render));
-$("saveProfile").onclick=async()=>{await saveWithTimeout(set(R("shopProfile"),{...profile,name:$("shopName").value,address:$("shopAddress").value,map:$("shopMap").value,phone:$("shopPhone").value,about:$("shopAbout").value,avatar:profile.avatar||"",cover:profile.cover||""}),"Profile save");toast("Profile saved")};
-$("avatarFile").onchange=async e=>{try{let u=await upload(e.target.files[0],"profile");if(u){await update(R("shopProfile"),{avatar:u});toast("Profile photo uploaded")}}catch(x){toast("ပုံတင်မရပါ: "+x.message)}e.target.value=""};
-$("storyFile").onchange=async e=>{try{let file=e.target.files[0];if(!file)return;let u=await upload(file,"stories"),title=prompt("ပုံအမည်ထည့်ပါ","Shop photo")||"Shop photo";await set(push(R("stories")),{url:u,title});toast("Photo uploaded")}catch(x){toast("ပုံတင်မရပါ: "+x.message)}e.target.value=""};
-$("saveSettings").onclick=async()=>{let s={...settings,language:$("language").value,theme:$("theme").value,currency:$("currency").value,defaultAccount:$("defaultAccount").value};await saveWithTimeout(set(R("settings"),s),"Settings save");cur=s.currency;theme(s.theme);toast("Settings saved")};$("theme").onchange=()=>theme($("theme").value);
-$("saveReceipt").onclick=async()=>{await update(R("settings"),{receiptFooter:$("receiptFooter").value,receiptWidth:$("receiptWidth").value});toast("Receipt settings saved")};$("testPrint").onclick=()=>print({date:date(),brand:"Printer",model:"Test",salePrice:0});
-$("exportSold").onclick=()=>{let rows=[["Date","Brand","Model","IMEI","Sale Price","Account"],...Object.values(sold).map(p=>[p.date,p.brand,p.model,p.imei,p.salePrice,p.account])];let csv=rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\r\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));a.download="sold-history.csv";a.click();URL.revokeObjectURL(a.href)};
-$("checkUpdate").onclick=()=>toast("GitHub repository မှာ version အသစ်ရှိမရှိ စစ်ပါ");$("help").onclick=()=>alert("Stock: Stock In → အချက်အလက်ဖြည့် → Save။ ရောင်းရန် Sell ကိုနှိပ်ပါ။ Cash Flow မှာ Income/Expense မှတ်တမ်းတင်ပါ။ Support: Aung Zin Min · 09753845426 / 09683216081 · azin80502@gmail.com");
-$("today").textContent=new Date().toLocaleDateString();
-// Anonymous Authentication removed as requested. Connect directly to Realtime Database.
+    <section class="page" id="page-stock">
+      <div class="card">
+        <div class="head"><h2>Phone Inventory</h2><button class="primary" id="addPhone">＋ Stock In</button></div>
+        <div class="toolbar">
+          <input id="stockSearch" placeholder="Model, brand, IMEI, colour ရှာရန်">
+          <select id="stockFilter"><option value="all">All phones</option><option value="available">Available</option><option value="sold">Sold</option></select>
+        </div>
+        <div class="tablewrap"><table><thead><tr><th>Brand / Model</th><th>IMEI</th><th>Colour</th><th>Buy</th><th>Sell</th><th>Status</th><th>Action</th></tr></thead><tbody id="phoneRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-sold">
+      <div class="card">
+        <div class="head"><h2>Sold History</h2><button id="exportSold">Export CSV</button></div>
+        <input id="soldSearch" placeholder="ဖုန်း / IMEI / ရက်စွဲရှာရန်">
+        <div class="tablewrap"><table><thead><tr><th>Date</th><th>Phone</th><th>IMEI</th><th>Sale Price</th><th>Account</th><th>Profit</th><th>Receipt</th></tr></thead><tbody id="soldRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-cash">
+      <div class="grid stats">
+        <div class="card"><div class="label">Cash In Hand</div><div class="value" id="balCash">Ks 0</div></div>
+        <div class="card"><div class="label">KBZPay</div><div class="value" id="balKBZ">Ks 0</div></div>
+        <div class="card"><div class="label">WaveMoney</div><div class="value" id="balWave">Ks 0</div></div>
+        <div class="card"><div class="label">Bank Account</div><div class="value" id="balBank">Ks 0</div></div>
+      </div>
+      <div class="card">
+        <div class="head"><h2>Income / Expense</h2><button class="primary" id="addFlow">＋ Add Record</button></div>
+        <div class="toolbar">
+          <select id="flowFilter"><option value="all">All records</option><option>Income</option><option>Expense</option></select>
+          <input id="flowSearch" placeholder="Note ရှာရန်">
+        </div>
+        <div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Note</th><th>Account</th><th>Amount</th><th>Action</th></tr></thead><tbody id="flowRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-repair">
+      <div class="card">
+        <div class="head"><h2>Repair Service</h2><button class="primary" id="addRepair">＋ New Repair</button></div>
+        <div class="tablewrap"><table><thead><tr><th>Date</th><th>Customer</th><th>Phone / Problem</th><th>Price</th><th>Status</th><th>Action</th></tr></thead><tbody id="repairRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-profile">
+      <div class="grid two">
+        <div class="card">
+          <div class="head"><h2>Shop Profile</h2></div>
+          <div class="profile">
+            <div class="avatar" id="avatar">ZM</div>
+            <div>
+              <b id="profileNameDisplay">Zin Min Mobile Shop</b>
+              <p id="profileAddressDisplay" class="small muted">ဆိုင်တည်နေရာ</p>
+              <label for="avatarFile"><button type="button">Upload profile photo</button></label>
+              <input class="hidden" id="avatarFile" type="file" accept="image/*">
+            </div>
+          </div>
+          <div class="field"><label>Shop Name</label><input id="shopName" value="Zin Min Mobile Shop"></div>
+          <div class="field"><label>Shop Address / Location</label><input id="shopAddress" placeholder="ဆိုင်လိပ်စာ / မြို့နယ်"></div>
+          <div class="field"><label>Google Maps link</label><input id="shopMap" placeholder="https://maps.google.com/..."></div>
+          <div class="field"><label>Shop phone</label><input id="shopPhone" placeholder="09..."></div>
+          <div class="field"><label>About shop</label><textarea id="shopAbout"></textarea></div>
+          <button class="primary" id="saveProfile">Save Profile</button>
+        </div>
+        <div class="card">
+          <div class="head"><h2>Shop Photos / Story Circles</h2><label for="storyFile"><button type="button">＋ Add photo</button></label><input id="storyFile" class="hidden" type="file" accept="image/*"></div>
+          <p class="muted small">TikTok လို အဝိုင်းပုံများ၊ ဆိုင်ပုံများ၊ ဖုန်းပုံများ ထည့်နိုင်သည်။</p>
+          <div id="stories" class="stories"></div>
+          <div id="cover" class="cover">Shop photo preview</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="grid two">
+        <div class="card">
+          <div class="head"><h2>Menu Settings</h2></div>
+          <div class="field"><label>Language</label><select id="language"><option value="my">မြန်မာ</option><option value="en">English</option><option value="th">ไทย</option><option value="zh">中文</option></select></div>
+          <div class="field"><label>Display</label><select id="theme"><option value="dark">Dark / Liquid Glass</option><option value="light">Light</option><option value="auto">System default</option></select></div>
+          <div class="field"><label>Currency</label><select id="currency"><option>Ks</option><option>฿</option><option>$</option><option>¥</option></select></div>
+          <div class="field"><label>Default purchase account</label><select id="defaultAccount"><option>Cash</option><option>KBZPay</option><option>WaveMoney</option><option>Bank</option></select></div>
+          <button class="primary" id="saveSettings">Save Settings</button>
+          <hr style="border-color:var(--line);margin:20px 0">
+          <h2>Receipt & Printer Setup</h2>
+          <div class="field"><label>Receipt footer</label><input id="receiptFooter" value="Thank you for shopping with us!"></div>
+          <div class="field"><label>Paper width</label><select id="receiptWidth"><option value="58">58mm thermal</option><option value="80">80mm thermal</option><option value="normal">Normal paper</option></select></div>
+          <button id="saveReceipt">Save Receipt Settings</button><button id="testPrint" style="margin-left:6px">Test Print</button>
+        </div>
+        <div class="card">
+          <h2>Menu / User Guide / FAQ</h2><br>
+          <div class="notice"><b>1. User Guide / FAQ</b><br>Stock In, Sell, Cash Flow အသုံးပြုပုံ။</div><br>
+          <div class="notice"><b>2. Language & Display</b><br>မြန်မာ/English နှင့် Light/Dark Mode။</div><br>
+          <div class="notice"><b>3. App Info & Support</b><br>Developer: Aung Zin Min<br>Contact: 09753845426 / 09683216081<br>Email: azin80502@gmail.com<br>Version: 1.0.0</div>
+          <p><button id="checkUpdate">Check for updates</button> <button id="help">Open User Guide</button></p>
+        </div>
+      </div>
+    </section>
+    <div class="foot">Zin Min Mobile POS · Developer Aung Zin Min · Version 1.0.0</div>
+  </main>
+</div>
+
+<div id="modalRoot" class="hidden"></div>
+<div id="toast" class="toast hidden"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue, set, push, update, remove, forceLongPolling } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getStorage, ref as sref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const config = {
+  apiKey: "AIzaSyBPrKPhkYexhBI8gkCC4qqsBCKgd-FwMZM",
+  authDomain: "zin-min-mobile-pos.firebaseapp.com",
+  databaseURL: "https://zin-min-mobile-pos-default-rtdb.firebaseio.com",
+  projectId: "zin-min-mobile-pos",
+  storageBucket: "zin-min-mobile-pos.firebasestorage.app",
+  messagingSenderId: "1035417138265",
+  appId: "1:1035417138265:web:9602961adda94012e16d48",
+  measurementId: "G-SEY52GVLCY"
+};
+
+const app = initializeApp(config);
+const db = getDatabase(app);
+const storage = getStorage(app);
+const $ = id => document.getElementById(id);
+const accounts = ["Cash", "KBZPay", "WaveMoney", "Bank"];
+
+forceLongPolling(db);
+
+function saveWithTimeout(promise, label = "Database save") {
+  let timer;
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      timer = setTimeout(() => reject(new Error(label + " timed out after 15 seconds. Check Firebase Rules.")), 15000);
+    })
+  ]).finally(() => clearTimeout(timer));
+}
+
+let phones = {}, flows = {}, sold = {}, repairs = {}, profile = {}, settings = {}, stories = {}, unsubs = [], cur = "Ks";
+const R = p => ref(db, p);
+const money = n => cur + " " + Number(n || 0).toLocaleString("en-US");
+const date = () => new Date().toISOString().slice(0, 10);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function toast(t) {
+  $("toast").textContent = t;
+  $("toast").classList.remove("hidden");
+  setTimeout(() => $("toast").classList.add("hidden"), 2800);
+}
+
+function page(p) {
+  document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
+  $("page-" + p).classList.add("active");
+  document.querySelectorAll(".nav[data-page]").forEach(x => x.classList.toggle("active", x.dataset.page === p));
+  $("title").textContent = ({ dashboard: "Dashboard", stock: "Phone Stock", sold: "Sold History", cash: "Cash Flow", repair: "Repair Service", profile: "Shop Profile", settings: "Menu & Settings" })[p];
+  $("side").classList.remove("open");
+  if (p === "settings") fillSettings();
+  if (p === "profile") fillProfile();
+}
+
+function attach() {
+  unsubs.forEach(f => f());
+  unsubs = [];
+  for (const k of ["phones", "cashflow", "sold", "repairs", "shopProfile", "settings", "stories"]) {
+    unsubs.push(onValue(R(k), s => {
+      let v = s.val() || {};
+      if (k === "phones") phones = v;
+      if (k === "cashflow") flows = v;
+      if (k === "sold") sold = v;
+      if (k === "repairs") repairs = v;
+      if (k === "shopProfile") profile = v;
+      if (k === "settings") { settings = v; cur = v.currency || "Ks"; theme(v.theme || "dark"); }
+      if (k === "stories") stories = v;
+      $("sync").textContent = "Connected";
+      render();
+    }, e => {
+      $("sync").textContent = "Database error";
+      console.error("Firebase read failed:", e);
+      toast((e.code ? e.code + ": " : "") + (e.message || "Database read failed"));
+    }));
+  }
+}
+
+function balances() {
+  let b = { Cash: 0, KBZPay: 0, WaveMoney: 0, Bank: 0 };
+  Object.values(flows).forEach(x => b[x.account in b ? x.account : "Cash"] += (x.type === "Expense" ? -1 : 1) * Number(x.amount || 0));
+  return b;
+}
+
+function render() {
+  let ps = Object.values(phones), ss = Object.values(sold), b = balances();
+  $("sStock").textContent = ps.filter(p => p.status !== "sold").length;
+  $("sSold").textContent = ss.length;
+  $("sRevenue").textContent = money(ss.reduce((a, p) => a + Number(p.salePrice || 0), 0));
+  $("sValue").textContent = money(ps.filter(p => p.status !== "sold").reduce((a, p) => a + Number(p.buyPrice || 0), 0));
+  $("balances").innerHTML = accounts.map(a => `<p style="display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:7px 0"><span>${a}</span><b>${money(b[a])}</b></p>`).join("");
+  for (let [id, el] of [["Cash", "balCash"], ["KBZPay", "balKBZ"], ["WaveMoney", "balWave"], ["Bank", "balBank"]]) $(el).textContent = money(b[id]);
+
+  $("recent").innerHTML = Object.values(phones).slice(-5).reverse().map(p => `<tr><td>${esc(p.brand)} ${esc(p.model)}</td><td>${esc(p.imei || "—")}</td><td>${money(p.buyPrice)}</td><td>${p.status === "sold" ? "Sold" : "Available"}</td></tr>`).join("") || '<tr><td colspan="4" class="empty">ဖုန်းမရှိသေးပါ</td></tr>';
+
+  let q = ($("stockSearch")?.value \vert{}\vert{} "").toLowerCase(), f = $("stockFilter")?.value || "all", list = Object.entries(phones).filter(([id, p]) => [p.brand, p.model, p.imei, p.color].join(" ").toLowerCase().includes(q) && (f === "all" || (f === "sold" ? p.status === "sold" : p.status !== "sold"))).reverse();
+  $("phoneRows").innerHTML = list.map(([id, p]) => `<tr><td><b>${esc(p.brand)} ${esc(p.model)}</b><div class="small muted">${esc(p.date || "")}</div></td><td>${esc(p.imei || "—")}</td><td>${esc(p.color || "—")}</td><td>${money(p.buyPrice)}</td><td>${money(p.sellPrice)}</td><td><span class="pill ${p.status === "sold" ? "bad" : "good"}">${p.status === "sold" ? "Sold" : "Available"}</span></td><td>${p.status === "sold" ? "" : `<button data-sell="${id}">Sell</button>`} <button data-edit="${id}">Edit</button> <button data-del="${id}">×</button></td></tr>`).join("") || '<tr><td colspan="7" class="empty">Stock In ကိုနှိပ်ပါ</td></tr>';
+
+  q = ($("soldSearch")?.value || "").toLowerCase();
+  $("soldRows").innerHTML = Object.entries(sold).filter(([id, p]) => [p.brand, p.model, p.imei, p.date].join(" ").toLowerCase().includes(q)).reverse().map(([id, p]) => `<tr><td>${esc(p.date)}</td><td>${esc(p.brand)} ${esc(p.model)}</td><td>${esc(p.imei)}</td><td>${money(p.salePrice)}</td><td>${esc(p.account)}</td><td>${money(Number(p.salePrice || 0) - Number(p.buyPrice || 0))}</td><td><button data-receipt="${id}">Print</button></td></tr>`).join("") || '<tr><td colspan="7" class="empty">ရောင်းချမှု မရှိသေးပါ</td></tr>';
+
+  q = ($("flowSearch")?.value \vert{}\vert{} "").toLowerCase(); f = $("flowFilter")?.value || "all";
+  $("flowRows").innerHTML = Object.entries(flows).filter(([id, x]) => (f === "all" || x.type === f) && [x.note, x.account, x.date].join(" ").toLowerCase().includes(q)).reverse().map(([id, x]) => `<tr><td>${esc(x.date)}</td><td>${esc(x.type)}</td><td>${esc(x.note)}</td><td>${esc(x.account)}</td><td>${x.type === "Expense" ? "−" : "+"}${money(x.amount)}</td><td><button data-delflow="${id}">Delete</button></td></tr>`).join("") || '<tr><td colspan="6" class="empty">စာရင်းမရှိသေးပါ</td></tr>';
+
+  $("repairRows").innerHTML = Object.entries(repairs).reverse().map(([id, r]) => `<tr><td>${esc(r.date)}</td><td>${esc(r.customer)}</td><td>${esc(r.phone)}<div class="small muted">${esc(r.problem)}</div></td><td>${money(r.price)}</td><td>${esc(r.status)}</td><td><button data-done="${id}">Done</button> <button data-delrepair="${id}">×</button></td></tr>`).join("") || '<tr><td colspan="6" class="empty">Repair မရှိသေးပါ</td></tr>';
+
+  renderProfile(); renderStories(); bindRowButtons();
+}
+
+function modal(title, body, submit, fn) {
+  $("modalRoot").classList.remove("hidden");
+  $("modalRoot").innerHTML = `<div class="modalbg"><div class="modal"><div class="head"><h2>${title}</h2><button id="close">✕</button></div><form id="mf" novalidate>${body}<div class="toolbar"><button type="button" id="cancel">Cancel</button><button type="submit" class="primary">${submit}</button></div></form></div></div>`;
+  $("close").onclick = $("cancel").onclick = closeModal;
+  $("modalRoot").querySelector(".modalbg").onclick = e => { if (e.target.classList.contains("modalbg")) closeModal() };
+  $("mf").onsubmit = async e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    let b = form.querySelector('button[type="submit"]');
+    const missing = [...form.querySelectorAll('[required]')].find(x => !String(x.value || '').trim());
+    if (missing) { toast((missing.previousElementSibling?.textContent || missing.name) + " ဖြည့်ပါ"); missing.focus(); return; }
+    if (b) { b.disabled = true; b.textContent = "Saving…"; }
+    toast("သိမ်းဆည်းနေသည်…");
+    try {
+      await saveWithTimeout(fn(Object.fromEntries(new FormData(form))), "Save");
+      closeModal();
+    } catch (err) {
+      console.error("POS save failed:", err);
+      const msg = (err.code ? err.code + " — " : "") + (err.message || String(err) || "Unknown error");
+      toast("Save မအောင်မြင်: " + msg);
+      if (b) { b.disabled = false; b.textContent = submit; }
+    }
+  }
+}
+
+function closeModal() { $("modalRoot").classList.add("hidden"); $("modalRoot").innerHTML = ""; }
+
+const field = (l, n, v = "", type = "text", req = false) => `<div class="field"><label>${l}</label><input name="${n}" type="${type}" value="${esc(v)}" ${req ? "required" : ""}></div>`;
+const select = (l, n, opts, v) => `<div class="field"><label>${l}</label><select name="${n}">${opts.map(x => `<option ${x === v ? "selected" : ""}>${x}</option>`).join("")}</select></div>`;
+
+function phoneForm(id) {
+  let p = phones[id] || {};
+  modal(id ? "Edit Phone" : "Stock In", `<div class="formgrid">${field("Brand", "brand", p.brand, "text", true)}${field("Model Name", "model", p.model, "text", true)}${field("IMEI", "imei", p.imei)}${field("Colour", "color", p.color)}${field("Stock In Date", "date", p.date || date(), "date", true)}${field("Buy Price", "buyPrice", p.buyPrice || 0, "number", true)}${field("Sell Price", "sellPrice", p.sellPrice || 0, "number", true)}${select("Paid From", "buyAccount", accounts, p.buyAccount || settings.defaultAccount || "Cash")}</div>`, "Save", async d => {
+    d.buyPrice = +d.buyPrice; d.sellPrice = +d.sellPrice; d.status = p.status || "available";
+    if (id) await update(R("phones/" + id), d);
+    else {
+      await set(push(R("phones")), { ...d, createdAt: Date.now() });
+      if (d.buyPrice > 0) await set(push(R("cashflow")), { type: "Expense", amount: d.buyPrice, account: d.buyAccount, date: d.date, note: `Stock purchase ${d.brand} ${d.model}`, createdAt: Date.now() });
+    }
+    toast("Phone saved");
+  });
+}
+
+function sellPhone(id) {
+  let p = phones[id]; if (!p) return;
+  modal("Sell Phone", `<div class="notice">${esc(p.brand)} ${esc(p.model)} · IMEI ${esc(p.imei || "—")}</div><br><div class="formgrid">${field("Sale Date", "date", date(), "date", true)}${field("Sale Price", "salePrice", p.sellPrice || 0, "number", true)}${select("Received Account", "account", accounts, "Cash")}${field("Customer Name", "customer")}${field("Customer Phone", "customerPhone")}</div>`, "Confirm Sale", async d => {
+    let s = { ...p, date: d.date, salePrice: +d.salePrice, account: d.account, customer: d.customer, customerPhone: d.customerPhone, phoneId: id };
+    await set(push(R("sold")), s);
+    await update(R("phones/" + id), { status: "sold", soldDate: d.date, salePrice: +d.salePrice });
+    await set(push(R("cashflow")), { type: "Income", amount: +d.salePrice, account: d.account, date: d.date, note: `Phone sale ${p.brand} ${p.model}`, createdAt: Date.now() });
+    toast("Sale saved");
+    print(s);
+  });
+}
+
+function flowForm() {
+  modal("Add Income / Expense", `<div class="formgrid">${select("Type", "type", ["Income", "Expense"], "Income")}${field("Date", "date", date(), "date", true)}${field("Amount", "amount", "", "number", true)}${select("Account", "account", accounts, "Cash")}<div class="full">${field("Note", "note")}</div></div>`, "Save", async d => {
+    d.amount = +d.amount;
+    if (d.amount <= 0) throw Error("Amount must be positive");
+    await set(push(R("cashflow")), { ...d, createdAt: Date.now() });
+    toast("Cash flow saved");
+  });
+}
+
+function repairForm() {
+  modal("New Repair Job", `<div class="formgrid">${field("Date", "date", date(), "date", true)}${field("Customer", "customer", "", "text", true)}${field("Phone Model", "phone", "", "text", true)}${field("Price", "price", 0, "number", true)}${select("Status", "status", ["Pending", "In Progress", "Waiting Parts", "Completed"], "Pending")}<div class="full">${field("Problem / Notes", "problem")}</div></div>`, "Save", async d => {
+    d.price = +d.price;
+    await set(push(R("repairs")), { ...d, createdAt: Date.now() });
+    toast("Repair saved");
+  });
+}
+
+function print(p) {
+  let w = window.open("", "_blank", "width=400,height=600");
+  if (!w) { toast("Popup ကိုခွင့်ပြုပေးပါ"); return; }
+  w.document.write(`<body style="font:14px monospace;max-width:300px;margin:20px auto"><h2 style="text-align:center">${esc(profile.name || "Zin Min Mobile Shop")}</h2><p>${esc(profile.address || "")}</p><hr><p>Date: ${esc(p.date || date())}</p><p>Phone: ${esc(p.brand)} ${esc(p.model)}</p><p>IMEI: ${esc(p.imei || "—")}</p><p>Account: ${esc(p.account || "Cash")}</p><hr><h3>Total: ${money(p.salePrice)}</h3><p style="text-align:center">${esc(settings.receiptFooter || "Thank you for shopping with us!")}</p><button onclick="print()">Print</button></body>`);
+  w.document.close();
+  setTimeout(() => w.print(), 300);
+}
+
+function bindRowButtons() {
+  document.querySelectorAll("[data-sell]").forEach(b => b.onclick = () => sellPhone(b.dataset.sell));
+  document.querySelectorAll("[data-edit]").forEach(b => b.onclick = () => phoneForm(b.dataset.edit));
+  document.querySelectorAll("[data-del]").forEach(b => b.onclick = async () => { if (confirm("ဖုန်းမှတ်တမ်းဖျက်မလား?")) await remove(R("phones/" + b.dataset.del)) });
+  document.querySelectorAll("[data-delflow]").forEach(b => b.onclick = async () => { if (confirm("Cash flow ဖျက်မလား?")) await remove(R("cashflow/" + b.dataset.delflow)) });
+  document.querySelectorAll("[data-done]").forEach(b => b.onclick = () => update(R("repairs/" + b.dataset.done), { status: "Completed" }));
+  document.querySelectorAll("[data-delrepair]").forEach(b => b.onclick = async () => { if (confirm("Repair ဖျက်မလား?")) await remove(R("repairs/" + b.dataset.delrepair)) });
+  document.querySelectorAll("[data-receipt]").forEach(b => b.onclick = () => print(sold[b.dataset.receipt]));
+}
+
+function theme(t) { document.body.classList.toggle("light", t === "light" || (t === "auto" && matchMedia("(prefers-color-scheme: light)").matches)); }
+function fillSettings() { $("language").value = settings.language || "my"; $("theme").value = settings.theme \vert{}\vert{} "dark"; $("currency").value = settings.currency || "Ks"; $("defaultAccount").value = settings.defaultAccount \vert{}\vert{} "Cash"; $("receiptFooter").value = settings.receiptFooter || "Thank you for shopping with us!"; $("receiptWidth").value = settings.receiptWidth || "58"; }
+function fillProfile() { $("shopName").value = profile.name || "Zin Min Mobile Shop"; $("shopAddress").value = profile.address \vert{}\vert{} ""; $("shopMap").value = profile.map || ""; $("shopPhone").value = profile.phone \vert{}\vert{} ""; $("shopAbout").value = profile.about || ""; }
+function renderProfile() { $("profileNameDisplay").textContent = profile.name || "Zin Min Mobile Shop"; $("profileAddressDisplay").textContent = profile.address \vert{}\vert{} "ဆိုင်တည်နေရာ မထည့်ရသေးပါ"; $("avatar").innerHTML = profile.avatar ? `<img src="${esc(profile.avatar)}">` : "ZM"; $("cover").innerHTML = profile.cover ? `<img src="${esc(profile.cover)}">` : "Shop photo preview"; }
+function renderStories() { $("stories").innerHTML = Object.entries(stories).map(([id, s]) => `<div class="story"><div class="ring" data-story="${id}"><div class="ringin">${s.url ? `<img src="${esc(s.url)}">` : "＋"}</div></div>${esc(s.title || "Shop photo")}<br><button data-dstory="${id}">Delete</button></div>`).join("") || '<span class="muted small">ပုံမတင်ရသေးပါ။</span>'; document.querySelectorAll("[data-story]").forEach(x => x.onclick = () => { $("cover").innerHTML = `<img src="${esc(stories[x.dataset.story].url)}">` }); document.querySelectorAll("[data-dstory]").forEach(x => x.onclick = async () => { if (confirm("ပုံဖျက်မလား?")) await remove(R("stories/" + x.dataset.dstory)) }); }
+
+async function upload(file, path) {
+  if (!file) return null;
+  if (file.size > 5 * 1024 * 1024) throw Error("ပုံအရွယ်အစား 5MB အောက်ထားပါ");
+  let r = sref(storage, path + "/" + Date.now() + "_" + file.name.replace(/[^a-z0-9._-]/gi, "_"));
+  await uploadBytes(r, file);
+  return getDownloadURL(r);
+}
+
+$("logout").onclick = () => { if (confirm("Website ကို ပြန်ဖွင့်မလား?")) location.reload() };
+$("menubtn").onclick = () => $("side").classList.toggle("open");
+document.querySelectorAll(".nav[data-page]").forEach(b => b.onclick = () => page(b.dataset.page));
+document.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => page(b.dataset.goto));
+$("quickProfile").onclick = () => page("profile");
+$("quickTheme").onclick = async () => { let t = document.body.classList.contains("light") ? "dark" : "light"; theme(t); await update(R("settings"), { theme: t }); };
+$("addPhone").onclick = $("quickAdd").onclick = () => phoneForm();
+$("quickSell").onclick = () => { let p = Object.entries(phones).find(([id, p]) => p.status !== "sold"); p ? sellPhone(p[0]) : toast("Available phone မရှိပါ"); };
+$("addFlow").onclick = flowForm;
+$("addRepair").onclick = repairForm;
+
+["stockSearch", "stockFilter", "soldSearch", "flowSearch", "flowFilter"].forEach(id => $(id)?.addEventListener("input", render));
+$("syncBtn").onclick = () => toast("Realtime sync active ဖြစ်နေပါက Connected ပြပါမည်");
+
+$("saveProfile").onclick = async () => { await saveWithTimeout(set(R("shopProfile"), { ...profile, name: $("shopName").value, address: $("shopAddress").value, map: $("shopMap").value, phone: $("shopPhone").value, about: $("shopAbout").value, avatar: profile.avatar || "", cover: profile.cover || "" }), "Profile save"); toast("Profile saved"); };
+$("avatarFile").onchange = async e => { try { let u = await upload(e.target.files[0], "profile"); if (u) { await update(R("shopProfile"), { avatar: u }); toast("Profile photo uploaded"); } } catch (x) { toast("ပုံတင်မရပါ: " + x.message); } e.target.value = ""; };
+$("storyFile").onchange = async e => { try { let file = e.target.files[0]; if (!file) return; let u = await upload(file, "stories"), title = prompt("ပုံအမည်ထည့်ပါ", "Shop photo") || "Shop photo"; await set(push(R("stories")), { url: u, title }); toast("Photo uploaded"); } catch (x) { toast("ပုံတင်မရပါ: " + x.message); } e.target.value = ""; };
+
+$("saveSettings").onclick = async () => { let s = { ...settings, language: $("language").value, theme: $("theme").value, currency: $("currency").value, defaultAccount: $("defaultAccount").value }; await saveWithTimeout(set(R("settings"), s), "Settings save"); cur = s.currency; theme(s.theme); toast("Settings saved"); };
+$("theme").onchange = () => theme($("theme").value);
+$("saveReceipt").onclick = async () => { await update(R("settings"), { receiptFooter: $("receiptFooter").value, receiptWidth: $("receiptWidth").value }); toast("Receipt settings saved"); };
+$("testPrint").onclick = () => print({ date: date(), brand: "Printer", model: "Test", salePrice: 0 });
+
+$("exportSold").onclick = () => {
+  let rows = [["Date", "Brand", "Model", "IMEI", "Sale Price", "Account"], ...Object.values(sold).map(p => [p.date, p.brand, p.model, p.imei, p.salePrice, p.account])];
+  let csv = rows.map(r => r.map(v => '"' + String(v ?? "").replace(/"/g, '""') + '"').join(",")).join("\r\n"), a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" }));
+  a.download = "sold-history.csv";
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+
+$("checkUpdate").onclick = () => toast("GitHub repository မှာ version အသစ်ရှိမရှိ စစ်ပါ");
+$("help").onclick = () => alert("Stock: Stock In → အချက်အလက်ဖြည့် → Save။ ရောင်းရန် Sell ကိုနှိပ်ပါ။ Cash Flow မှာ Income/Expense မှတ်တမ်းတင်ပါ။ Support: Aung Zin Min · 09753845426 / 09683216081 · azin80502@gmail.com");
+$("today").textContent = new Date().toLocaleDateString();
+
 attach();
 page("dashboard");
-</script></body></html>
+</script>
+</body>
+</html>
